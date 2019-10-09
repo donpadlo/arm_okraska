@@ -1,0 +1,27 @@
+{
+    "name": "driver",
+    "version": "4.0.0",
+    "description": "Учет времени и денег",
+    "type": "project",
+    "license": "GPL v3",
+    "homepage": "https://xn--90acbu5aj5f.xn--p1ai/",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^5.6 || ^7.0",        
+        "components/jquery":"3.*",
+        "components/jqueryui":"1.*",
+        "components/font-awesome":"5.4.*",
+        "components/bootstrap":"4.*",                
+        "free-jqgrid":"dev-master"
+    },
+    "repositories": [
+        { "type": "git", "url": "https://github.com/donpadlo/jqGrid" }
+    ],    
+    "autoload": {
+        "psr-4": {
+            "Application\\": "module/Application/src/"
+        }        
+    },
+    "extra": {}
+}
