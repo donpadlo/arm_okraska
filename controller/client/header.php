@@ -20,18 +20,9 @@
 <script src="vendor/components/jqueryui/jquery-ui.min.js"></script>
 <script src="controller/client/js/jquery.toastmessage.js"></script>
 <script src="controller/client/js/chosen.jquery.min.js"></script>
-<script src="controller/client/js/driver.js"></script>
+<script src="controller/client/js/pokraska.js"></script>
 <script src="vendor/components/bootstrap/js/bootstrap.min.js"></script>
 <script src="vendor/free-jqgrid/dist/jquery.jqgrid.min.js"></script>
 <script>
-<?php
-// определяем какие месяцы разрешено редактировать
-    $cur_period=Date("Y-n-01");
-    $date = new DateTime();
-    $date->modify('-1 month');
-    $old_period=$date->format('Y-n-01');
-?>
-    cur_period="<?php echo "$cur_period";?>";
-    old_period="<?php echo "$old_period";?>";
     route = '<?php echo 'index.php?route=/'; ?>';
 </script>    

@@ -10,8 +10,8 @@ $codemysql = 'utf8'; // Кодировка базы
 $mysql_base_id = ''; // Идентификатор соединения
 
 $mysql_host = 'localhost'; // Хост БД
-$mysql_user = 'root'; // Пользователь БД
-$mysql_pass = 'padlozapadlo'; // Пароль пользователя БД
+$mysql_user = 'pokraska'; // Пользователь БД
+$mysql_pass = 'pokraska'; // Пароль пользователя БД
 $mysql_base = 'pokraska'; // Имя базы
 
 // Временная зона по умолчанию
