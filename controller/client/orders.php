@@ -7,8 +7,7 @@
         </div>
                     <div id="order_div">
                         Выберите заказ или добавьте его
-                    </div>
-    
+                    </div>    
 </div>
 <script>
         jQuery("#order_list").jqGrid({
@@ -38,6 +37,10 @@
             sortorder: "desc",
             editurl:route+'controller/server/order_grid.php',
             caption:"Список заказов",
+            onSelectRow: function(ids) {	
+                $("#order_div").html("<img src='controller/client/img/loading.gif'>");
+                $("#order_div" ).load(route+"controller/server/order_view.php&order_id="+ids);
+	    },            
         }).jqGrid("gridResize");
         jQuery("#order_list").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
         jQuery("#order_list").jqGrid('navGrid','#order_pager',{edit:true,add:false,del:true,search:true},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );    
@@ -45,6 +48,8 @@
             title: "Создать новый заказ",            
             position:"last",
             onClickButton:function(){
+                $("#order_div").html("<img src='controller/client/img/loading.gif'>");
+                $("#order_div" ).load(route+"controller/server/order_view.php&mode=addnew");
             }        
         });        
         BindResizeble("#order_list","#maincontent");
