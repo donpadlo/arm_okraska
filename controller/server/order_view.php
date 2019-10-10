@@ -47,11 +47,17 @@ while ($row = mysqli_fetch_array($result)) {
 <div align="center"><h3>Кузов</h3></div>
 <div class="container-fluid" style="padding-right: 0px; padding-left: 0px;">
         <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">							
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">							
                     <div align="center">
-                        <img src="controller/client/img/razvertka.png"
+                        <img src="controller/client/img/razvertka.png">
                     </div>
                 </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">							
+                    <div align="center"><h4>Элементы</h4></div>
+                    1<br/>
+                    2<br/>
+                    3<br/>
+                </div>            
         </div>
 </div>
 <div align="center">
