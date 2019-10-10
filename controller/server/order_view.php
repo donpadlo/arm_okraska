@@ -24,18 +24,41 @@ while ($row = mysqli_fetch_array($result)) {
 <div class="container-fluid" style="padding-right: 0px; padding-left: 0px;">
         <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">							
-                    <label for="dtcreate">Дата заказа</label>
-                    <input readonly="true" type="text" name="dtcreate" id="dtcreate" value="<?php echo MySQLDateTimeToDateTime($dtcreate);?>">                    
+                    <div class="form-group">
+                        <label for="dtcreate">Дата заказа</label>
+                        <input class="form-control" readonly="true" type="text" name="dtcreate" id="dtcreate" value="<?php echo MySQLDateTimeToDateTime($dtcreate);?>">                    
+                        <small class="form-text text-muted">Дата и время создания заказа</small>                         
+                    </div>
                 </div>            
                 <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">							
-                    Машина
+                    <label for="car_id">Автомобиль</label>
+                    <div id="cars_list_div"></div>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">							
-                    Исполнитель
+                    <label for="painter_id">Исполнитель</label>
+                    <div id="painters_list_div"></div>
                 </div>
         </div>
 </div>
 <script>
 $(function() {
+    // Загружаем список автомобилей
+    $.post(route+'controller/server/sel_list_cars.php',{default:<?php echo $car_id;?>}, 
+       function(data){             
+          $("#cars_list_div").html(data);
+          $(".chosen-select").chosen();
+          $("#car_id").chosen('destroy').val(<?php echo $car_id;?>).chosen(); 
+       }
+    );               
+    // Загружаем список исполнителей
+    $.post(route+'controller/server/sel_list_painters.php',{default:<?php echo $painter_id;?>}, 
+       function(data){             
+         $("#painters_list_div").html(data)
+          $(".chosen-select").chosen();
+          $("#painter_id").chosen('destroy').val(<?php echo $painter_id;?>).chosen();          
+       }
+    );               
+    
+        
 });    
 </script>    
