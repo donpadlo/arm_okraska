@@ -7,11 +7,12 @@ if ($mode=="addnew"){
   $result = $sqlcn->ExecuteSQL($sql) or die("Не удалось добавить orders!" . mysqli_error($sqlcn->idsqlconnection));
   $order_id=mysqli_insert_id($sqlcn->idsqlconnection);
 };
-// читаю информацию по заказу и строю страницу
 
+// читаю информацию по заказу и строю страницу
 $sql="select * from orders where id=$order_id";
 $result = $sqlcn->ExecuteSQL($sql) or die("Не могу выбрать список painters!" . mysqli_error($sqlcn->idsqlconnection));
 while ($row = mysqli_fetch_array($result)) {
+    $order_id=$row["id"];
     $car_id=$row["car_id"];
     $painter_id=$row["painter_id"];
     $dtcreate=$row["dtcreate"];
@@ -21,6 +22,7 @@ while ($row = mysqli_fetch_array($result)) {
 }; 
 //
 ?>
+<div align="center"><h3>Заказ №<?php echo $order_id;?></h3></div>
 <div class="container-fluid" style="padding-right: 0px; padding-left: 0px;">
         <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">							
@@ -33,12 +35,27 @@ while ($row = mysqli_fetch_array($result)) {
                 <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">							
                     <label for="car_id">Автомобиль</label>
                     <div id="cars_list_div"></div>
+                    <small class="form-text text-muted">Номер и фамилия водителя</small>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">							
                     <label for="painter_id">Исполнитель</label>
                     <div id="painters_list_div"></div>
+                    <small class="form-text text-muted">Маляр, исполнитель</small>
                 </div>
         </div>
+</div>
+<div align="center"><h3>Кузов</h3></div>
+<div class="container-fluid" style="padding-right: 0px; padding-left: 0px;">
+        <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">							
+                    <div align="center">
+                        <img src="controller/client/img/razvertka.png"
+                    </div>
+                </div>
+        </div>
+</div>
+<div align="center">
+    <button onclick="SaveOrder()" type="button" class="btn btn-success">Сохранить изменения</button>
 </div>
 <script>
 $(function() {
