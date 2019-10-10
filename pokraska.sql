@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:3306
--- Время создания: Окт 09 2019 г., 17:58
+-- Время создания: Окт 10 2019 г., 17:16
 -- Версия сервера: 5.7.27-0ubuntu0.18.04.1
 -- Версия PHP: 7.2.19-0ubuntu0.18.04.2
 
@@ -35,6 +35,13 @@ CREATE TABLE `cars` (
   `mobile` varchar(100) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Дамп данных таблицы `cars`
+--
+
+INSERT INTO `cars` (`id`, `dtcreate`, `model`, `number`, `fio`, `mobile`) VALUES
+(2, '2019-10-10 15:31:29', 'wrefe', 'rfwerf', 'erf', 'werfwe');
+
 -- --------------------------------------------------------
 
 --
@@ -59,10 +66,19 @@ CREATE TABLE `orders` (
   `car_id` int(11) NOT NULL,
   `painter_id` int(11) NOT NULL,
   `dtcreate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `dtclose` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dtclose` datetime DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '0 - новый 1 - в работе 2- законечен не оплачен 3 - закрыт',
-  `comments` text COLLATE utf8_bin NOT NULL
+  `comments` text COLLATE utf8_bin NOT NULL,
+  `archive` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0 - активный, 1 - в архиве'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Дамп данных таблицы `orders`
+--
+
+INSERT INTO `orders` (`id`, `car_id`, `painter_id`, `dtcreate`, `dtclose`, `status`, `comments`, `archive`) VALUES
+(1, 2, 3, '2019-10-10 17:02:19', NULL, 1, '', 0),
+(2, 2, 3, '2019-10-10 17:02:27', NULL, 2, 'er werwerv', 0);
 
 -- --------------------------------------------------------
 
@@ -77,6 +93,14 @@ CREATE TABLE `painters` (
   `mobile` varchar(100) COLLATE utf8_bin NOT NULL,
   `image` varchar(100) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Дамп данных таблицы `painters`
+--
+
+INSERT INTO `painters` (`id`, `dtcreate`, `fio`, `mobile`, `image`) VALUES
+(1, '2019-10-10 11:15:07', 'Пупкин Василий', '+79212347594', ''),
+(3, '2019-10-10 12:03:10', 'Дубровина Анастасия', '6868', '');
 
 -- --------------------------------------------------------
 
@@ -147,7 +171,7 @@ ALTER TABLE `points`
 -- AUTO_INCREMENT для таблицы `cars`
 --
 ALTER TABLE `cars`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `images`
 --
@@ -157,12 +181,12 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `painters`
 --
 ALTER TABLE `painters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблицы `points`
 --

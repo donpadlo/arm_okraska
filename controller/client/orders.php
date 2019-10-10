@@ -16,11 +16,11 @@
             datatype: "json",
             colNames:['Id','Добавлен','Закрыт','Автомобиль','Исполнитель','Статус','Комментарий',''],
             colModel:[   		
-                    {name:'id',index:'id', width:55,search: false,hidden:true,editable:false},                    
+                    {name:'orders.id',index:'orders.id', width:55,search: false,hidden:true,editable:false},                    
                     {name:'dtcreate',index:'dtcreate', width:150,search: true,editable:false,hidden:false,editable:false},     
                     {name:'dtclose',index:'dtclose', width:150,search: true,editable:false,hidden:false,editable:false},     
-                    {name:'car',index:'car', width:150,search: true,editable:false},     
-                    {name:'painter',index:'painter', width:150,search: true,editable:false},     
+                    {name:'cars.number',index:'cars.number', width:150,search: true,editable:false},     
+                    {name:'painters.fio',index:'painters.fio', width:150,search: true,editable:false},     
                     {name:'status',index:'status', width:150,search: true,editable:true},     
                     {name:'comment',index:'comment', width:150,search: true,editable:true},     
                     {name:'myac', width:60, fixed:true, sortable:false, resize:false, formatter:'actions',formatoptions:{keys:true},search: false}
@@ -28,7 +28,7 @@
             autowidth: true,			
             rowNum:10,	   	
             pager: '#order_pager',
-            sortname: 'id',
+            sortname: 'orders.id',
             scroll:1,            
             userDataOnFooter : true,
             altRows : true,
