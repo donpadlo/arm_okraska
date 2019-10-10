@@ -6,21 +6,28 @@
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="index.php">Месяцы <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="index.php">Заказы <span class="sr-only">(current)</span></a>
       </li>
      <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Справочники</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="index.php?content_page=drivers">Водители</a>
-          <a class="dropdown-item" href="index.php?content_page=brigadirs">Бригадиры</a>
+          <a class="dropdown-item" href="index.php?content_page=painters">Исполнители</a>
+          <a class="dropdown-item" href="index.php?content_page=cars">Автомобили</a>
         </div>        
       </li>
      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Отчеты</a>
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Документы</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="index.php?content_page=report_sales">Прибыль таксопарка за период</a>
+          <a class="dropdown-item" href="index.php?content_page=orders">Заказы</a>
         </div>
       </li>      
-    </ul>
+     <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Отчеты</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="index.php?content_page=reports_1">Выработка за период</a>
+        </div>
+      </li>      
+      
+    </ul>      
   </div>
 </nav>
