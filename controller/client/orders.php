@@ -1,3 +1,10 @@
+<link rel="stylesheet" href="controller/client/css/upload.css">
+<link rel="stylesheet" href="controller/client/css/jquery.Jcrop.min.css">
+<script src="controller/client/js/FileAPI/FileAPI.min.js"></script>
+<script src="controller/client/js/FileAPI/FileAPI.exif.js"></script>
+<script src="controller/client/js/jquery.fileapi.js"></script>
+<script src="controller/client/js/jquery.Jcrop.min.js"></script>
+<script src="controller/client/js/statics/jquery.modal.js"></script>
 <div class="container-fluid">
         <div class="row" style="padding-right: 0px; padding-left: 0px;">
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-right: 0px; padding-left: 0px;">							

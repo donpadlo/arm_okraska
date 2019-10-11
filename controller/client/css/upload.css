@@ -134,9 +134,9 @@
 }
 
 .webcam, .userpic {
-	width: 200px;
+/*	width: 200px;
 	height: 200px;
-	border: 2px solid #aaa;
+	border: 2px solid #aaa;*/
 	display: inline-block;
 	position: relative;
 /*	background: url('../../../photos/noimage.jpg') no-repeat;

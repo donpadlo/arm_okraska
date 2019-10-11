@@ -5,8 +5,34 @@ $result = $sqlcn->ExecuteSQL($sql) or die("Не могу выбрать спис
 $comments="";
 while ($row = mysqli_fetch_array($result)) {
   $comments=$row["comments"];
+  $photo=$row["photo"];
 };
+if (! file_exists(WUO_ROOT."/photos/$photo")) {
+    $photo = 'noimage.jpg';
+};
+if ($photo==""){$photo = 'noimage.jpg';};
 ?>
+<div class="container-fluid">
+    <div class="row">
+        <div id="userpic" class="userpic">
+            <div class="js-preview userpic__preview thumbnail" id="image_set_id">			
+                <img width="200px" height="200px" src="photos/<?php echo "$photo";?>"> 
+            </div>
+            <div align="center" id="simple-btn" class="btn btn-primary js-fileapi-wrapper" style="text-align: center;">
+                    <div class="js-browse" align="center">
+                        <span class="btn-txt">Загрузить файл</span> 
+                        <input type="file" name="filedata">
+                    </div>
+                    <div class="js-upload" style="display: none">
+                        <div class="progress progress-success">
+                            <div class="js-progress bar"></div>
+                        </div>
+                        <span align="center" class="btn-txt">Загружаю (<span class="js-size"></span>)</span>
+                    </div>
+            </div>
+        </div>			                                                                       
+    </div>
+</div> 
 <div class="form-group">
     <label for="point_commets_win_textarea">Комментарий</label>
     <textarea class="form-control" id="point_commets_win_textarea" rows="2" cols="45" name="point_commets_win_textarea"><?php echo "$comments";?></textarea>
