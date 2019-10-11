@@ -8,6 +8,7 @@ $res=array();
 while ($row = mysqli_fetch_array($result)) {
     $coors= json_decode($row["coors"]);
     $res[$cnt]["coors"]=$coors;
+    $res[$cnt]["point_id"]=$row["id"];
     $res[$cnt]["comments"]=$row["comments"];
     $cnt++;
 };

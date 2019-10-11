@@ -11,3 +11,8 @@
     border-radius: 20px;
     background: red;
 }
+.points_list_div {
+    position: absolute;
+    top: 0px;    
+    left:-10px;
+}

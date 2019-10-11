@@ -78,16 +78,16 @@ if (isset($_GET['ajax'])) {
 	exit();
 };
 
-$content_page = (isset($_GET['content_page'])) ? $_GET['content_page'] : 'home';
+$content_page = (isset($_GET['content_page'])) ? $_GET['content_page'] : 'orders';
 
 // Загружаем и выполняем сначала /modules/$content_page.php, затем /controller/client/themes/$cfg->theme/$content_page.php
 // Если таких файлов нет, то принудительно выполняем только /controller/client/themes/$cfg->theme/home.php
 if (!is_file(WUO_ROOT."/controller/client/$content_page.php")) {
-	$content_page = 'home';
+	$content_page = 'orders';
 	die('Вы попытались открыть несуществующий раздел!');
 }
 if (!is_file(WUO_ROOT."/modules/$content_page.php")) {
-	@include_once(WUO_ROOT.'/modules/home.php');
+	@include_once(WUO_ROOT.'/modules/orders.php');
 } else {
 	@include_once(WUO_ROOT."/modules/$content_page.php");
 }
