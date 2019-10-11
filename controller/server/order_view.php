@@ -49,7 +49,7 @@ while ($row = mysqli_fetch_array($result)) {
         <div class="row">
                 <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">							
                     <div align="center">
-                        <img ondblclick="AddPoint(event)" src="controller/client/img/razvertka.png">
+                        <img id="razvertka_id" ondblclick="AddPoint(event)" src="controller/client/img/razvertka.png">
                         <div id="points_list_div"></div>
                     </div>
                 </div>
@@ -87,6 +87,7 @@ function PointsLoad(){
        function(data){             
          points_list=JSON.parse(data);                   
          $("#points_list_div").html("");
+         sm=razvertka_id.getBoundingClientRect;
          points_list.forEach(function(item, i, arr) {
             console.log(item.coors);
             $("#points_list_div").append("<div class='dot' style='top:"+item.coors[1]+"px;left:"+item.coors[0]+"px'></div>");
