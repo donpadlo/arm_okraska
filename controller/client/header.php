@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="vendor/free-jqgrid/dist/css/ui.jqgrid.min.css">
 <link rel="stylesheet" href="controller/client/css/jquery.toastmessage.css">
 <link rel="stylesheet" href="controller/client/css/chosen.min.css">
+<link rel="stylesheet" href="controller/client/css/pokraska.css">
 <link rel="stylesheet" href="vendor/components/font-awesome/css/all.min.css">
 <script src="vendor/components/jquery/jquery.min.js"></script>
 <script src="vendor/components/jqueryui/jquery-ui.min.js"></script>

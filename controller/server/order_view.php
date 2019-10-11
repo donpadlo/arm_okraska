@@ -49,14 +49,14 @@ while ($row = mysqli_fetch_array($result)) {
         <div class="row">
                 <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">							
                     <div align="center">
-                        <img src="controller/client/img/razvertka.png">
+                        <img ondblclick="AddPoint(event)" src="controller/client/img/razvertka.png">
+                        <div id="points_list_div"></div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">							
-                    <div align="center"><h4>Элементы</h4></div>
-                    1<br/>
-                    2<br/>
-                    3<br/>
+                    <div align="center"><h4>Работа</h4></div>
+                    <div id="work_list_div">
+                    </div>
                 </div>            
         </div>
 </div>
@@ -64,24 +64,55 @@ while ($row = mysqli_fetch_array($result)) {
     <button onclick="SaveOrder()" type="button" class="btn btn-success">Сохранить изменения</button>
 </div>
 <script>
-$(function() {
-    // Загружаем список автомобилей
+function CarsLoad(){
     $.post(route+'controller/server/sel_list_cars.php',{default:<?php echo $car_id;?>}, 
        function(data){             
           $("#cars_list_div").html(data);
           $(".chosen-select").chosen();
           $("#car_id").chosen('destroy').val(<?php echo $car_id;?>).chosen(); 
        }
-    );               
-    // Загружаем список исполнителей
+    );                   
+};
+function PointersLoad(){
     $.post(route+'controller/server/sel_list_painters.php',{default:<?php echo $painter_id;?>}, 
        function(data){             
          $("#painters_list_div").html(data)
           $(".chosen-select").chosen();
           $("#painter_id").chosen('destroy').val(<?php echo $painter_id;?>).chosen();          
        }
-    );               
-    
-        
+    );                   
+};
+function PointsLoad(){
+    $.post(route+'controller/server/get_list_points.php',{order_id:<?php echo $order_id;?>}, 
+       function(data){             
+         points_list=JSON.parse(data);                   
+         $("#points_list_div").html("");
+         points_list.forEach(function(item, i, arr) {
+            console.log(item.coors);
+            $("#points_list_div").append("<div class='dot' style='top:"+item.coors[1]+"px;left:"+item.coors[0]+"px'></div>");
+         });
+       }
+    );                       
+};
+function AddPoint(event){
+    console.log(event);
+    $.post(route+'controller/server/point_add.php',{
+        order_id:<?php echo $order_id;?>,
+        x:event.layerX-5,
+        y:event.layerY-5        
+    }, 
+       function(data){             
+         $().toastmessage('showWarningToast', 'Точка добавлена!'); 
+         PointsLoad();
+       }
+    );                           
+};
+$(function() {
+    // Загружаем список автомобилей
+    CarsLoad();
+    // Загружаем список исполнителей
+    PointersLoad();      
+    // Загружаем список комментариев
+    PointsLoad();
 });    
 </script>    
