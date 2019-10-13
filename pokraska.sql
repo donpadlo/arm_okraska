@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 13, 2019 at 06:55 PM
+-- Generation Time: Oct 13, 2019 at 08:12 PM
 -- Server version: 5.7.27-0ubuntu0.18.04.1
 -- PHP Version: 7.2.19-0ubuntu0.18.04.2
 
@@ -52,9 +52,23 @@ INSERT INTO `cars` (`id`, `dtcreate`, `model`, `number`, `fio`, `mobile`) VALUES
 CREATE TABLE `images` (
   `id` int(11) NOT NULL,
   `type` int(11) NOT NULL COMMENT '1 - точки, 2 - заказы',
-  `uuid` int(11) NOT NULL COMMENT 'id точек или заказов',
+  `order_id` int(11) NOT NULL COMMENT 'id точек или заказов',
   `image` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `images`
+--
+
+INSERT INTO `images` (`id`, `type`, `order_id`, `image`) VALUES
+(1, 2, 1, '33121036.jpg'),
+(2, 2, 1, '22127054.jpg'),
+(3, 2, 1, '17543247.png'),
+(4, 2, 1, '87205461.png'),
+(5, 2, 1, '51468080.png'),
+(6, 2, 2, '50880182.png'),
+(7, 2, 2, '80766607.jpg'),
+(8, 2, 2, '52747740.jpg');
 
 -- --------------------------------------------------------
 
@@ -171,7 +185,8 @@ INSERT INTO `points` (`id`, `order_id`, `coors`, `comments`, `photo`) VALUES
 (16, 2, '[\"126\",\"191\"]', '', NULL),
 (17, 1, '[\"420\",\"299\"]', '', NULL),
 (18, 2, '[\"420\",\"302\"]', '', NULL),
-(19, 2, '[\"341\",\"35\"]', '', NULL);
+(19, 2, '[\"341\",\"35\"]', '', NULL),
+(20, 2, '[\"129\",\"303\"]', '', NULL);
 
 --
 -- Indexes for dumped tables
@@ -226,7 +241,7 @@ ALTER TABLE `cars`
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `orders`
 --
@@ -246,7 +261,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `points`
 --
 ALTER TABLE `points`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
