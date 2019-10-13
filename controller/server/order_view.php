@@ -27,9 +27,13 @@ while ($row = mysqli_fetch_array($result)) {
         <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">							
                     <div class="form-group">
-                        <label for="dtcreate">Дата заказа</label>
-                        <input class="form-control" readonly="true" type="text" name="dtcreate" id="dtcreate" value="<?php echo MySQLDateTimeToDateTime($dtcreate);?>">                    
-                        <small class="form-text text-muted">Дата и время создания заказа</small>                         
+                        <label for="order_status">Статус заказа</label>
+                        <select style='width:100%;' tabindex='40' name=status_id id=status_id>";
+                            <option <?php if ($status==0){echo "selected";};?> value='0'>Новый</option>
+                            <option <?php if ($status==1){echo "selected";};?> value='1'>В работе</option>
+                            <option <?php if ($status==2){echo "selected";};?> value='2'>Закрыт</option>
+                        </select>
+                        <small class="form-text text-muted">Текущее состояние заказа</small>                         
                     </div>
                 </div>            
                 <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">							
@@ -44,20 +48,21 @@ while ($row = mysqli_fetch_array($result)) {
                 </div>
         </div>
 </div>
-<div align="center"><h3>Кузов</h3></div>
 <div class="container-fluid" style="padding-right: 0px; padding-left: 0px;">
         <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">							
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">							
                     <div align="center">
-                        <img id="razvertka_id" ondblclick="AddPoint(event)" src="controller/client/img/razvertka.png">
-                        <img id="razvertka_id" ondblclick="AddPoint(event)" src="controller/client/img/1.jpg">
+                        <img id="razvertka_id" ondblclick="AddPoint(event)" src="controller/client/img/razvertka.png">                        
                         <div class="points_list_div" id="points_list_div"></div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">							
-                    <div align="center"><h4>Работа</h4></div>
-                    <div id="work_list_div">
-                    </div>
+                <div id="work_list_div_id" class="col-sm-6 col-md-6 col-lg-6 col-xl-6">							
+                    <table id="work_list"></table>
+                    <div id="work_pager"></div>                        
+                    <table id="zap_list"></table>
+                    <div id="zap_pager"></div>                        
+                    <table id="mat_list"></table>
+                    <div id="mat_pager"></div>                        
                 </div>            
         </div>
 </div>
@@ -69,6 +74,111 @@ while ($row = mysqli_fetch_array($result)) {
    <div id="points_div_list_which_photos"> </div>
 </div>
 <script>
+function SaveOrder(){
+    $.post(route+'controller/server/save_order.php',{
+        order_id:<?php echo $order_id;?>,
+        status: $("#status_id").val(),
+        car_id: $("#car_id").val(),
+        painter_id: $("#painter_id").val(),
+    }, 
+       function(data){                      
+            $().toastmessage('showWarningToast', 'Данные сохранены!');              
+            jQuery("#order_list").jqGrid().trigger('reloadGrid');                                
+       }
+    );                               
+};    
+function WorkList(){
+        jQuery("#work_list").jqGrid({
+            url:route+'controller/server/payments_list.php&type=1&order_id=<?php echo "$order_id";?>',
+            datatype: "json",
+            colNames:['Id','Сумма','Количество','Всего','Комментарий',''],
+            colModel:[   		
+                    {name:'id',index:'id', width:55,search: false,hidden:true,editable:false},                    
+                    {name:'amount',index:'amount', width:150,search: false,editable:true,hidden:false},     
+                    {name:'cnt',index:'cnt', width:150,search: false,editable:true,hidden:false},
+                    {name:'summ',index:'summ', width:150,search: false,editable:false,hidden:false,sortable:false},
+                    {name:'comment',index:'comment', width:150,search: true,editable:true},     
+                    {name:'myac', width:60, fixed:true, sortable:false, resize:false, formatter:'actions',formatoptions:{keys:true},search: false}
+            ],
+            autowidth: true,			
+            rowNum:10,	   	
+            pager: '#work_pager',
+            sortname: 'id',
+            scroll:1,            
+            footerrow : true,
+            userDataOnFooter : true,
+            altRows : true,
+            height: 140,
+            guiStyle: "bootstrap4",            
+            viewrecords: true,
+            sortorder: "desc",
+            editurl:route+'controller/server/payments_list.php&type=1&order_id=<?php echo "$order_id";?>',
+            caption:"Список работ"
+        }).jqGrid("gridResize");
+        jQuery("#work_list").jqGrid('navGrid','#work_pager',{edit:true,add:true,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
+        BindResizeble("#work_list","#work_list_div_id");    
+        // Запчасти
+        jQuery("#zap_list").jqGrid({
+            url:route+'controller/server/payments_list.php&type=2&order_id=<?php echo "$order_id";?>',
+            datatype: "json",
+            colNames:['Id','Сумма','Количество','Всего','Комментарий',''],
+            colModel:[   		
+                    {name:'id',index:'id', width:55,search: false,hidden:true,editable:false},                    
+                    {name:'amount',index:'amount', width:150,search: false,editable:true,hidden:false},     
+                    {name:'cnt',index:'cnt', width:150,search: false,editable:true,hidden:false},
+                    {name:'summ',index:'summ', width:150,search: false,editable:false,hidden:false,sortable:false},
+                    {name:'comment',index:'comment', width:150,search: true,editable:true},     
+                    {name:'myac', width:60, fixed:true, sortable:false, resize:false, formatter:'actions',formatoptions:{keys:true},search: false}
+            ],
+            autowidth: true,			
+            rowNum:10,	   	
+            pager: '#zap_pager',
+            sortname: 'id',
+            scroll:1,            
+            footerrow : true,
+            userDataOnFooter : true,
+            altRows : true,
+            height: 140,
+            guiStyle: "bootstrap4",            
+            viewrecords: true,
+            sortorder: "desc",
+            editurl:route+'controller/server/payments_list.php&type=2&order_id=<?php echo "$order_id";?>',
+            caption:"Список запчастей"
+        }).jqGrid("gridResize");
+        jQuery("#zap_list").jqGrid('navGrid','#zap_pager',{edit:true,add:true,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
+        BindResizeble("#zap_list","#work_list_div_id");    
+        // материалы
+        jQuery("#mat_list").jqGrid({
+            url:route+'controller/server/payments_list.php&type=3&order_id=<?php echo "$order_id";?>',
+            datatype: "json",
+            colNames:['Id','Сумма','Количество','Всего','Комментарий',''],
+            colModel:[   		
+                    {name:'id',index:'id', width:55,search: false,hidden:true,editable:false},                    
+                    {name:'amount',index:'amount', width:150,search: false,editable:true,hidden:false},     
+                    {name:'cnt',index:'cnt', width:150,search: false,editable:true,hidden:false},
+                    {name:'summ',index:'summ', width:150,search: false,editable:false,hidden:false,sortable:false},
+                    {name:'comment',index:'comment', width:150,search: true,editable:true},     
+                    {name:'myac', width:60, fixed:true, sortable:false, resize:false, formatter:'actions',formatoptions:{keys:true},search: false}
+            ],
+            autowidth: true,			
+            rowNum:10,	   	
+            pager: '#mat_pager',
+            sortname: 'id',
+            scroll:1,            
+            footerrow : true,
+            userDataOnFooter : true,
+            altRows : true,
+            height: 140,
+            guiStyle: "bootstrap4",            
+            viewrecords: true,
+            sortorder: "desc",
+            editurl:route+'controller/server/payments_list.php&type=3&order_id=<?php echo "$order_id";?>',
+            caption:"Список материалов"
+        }).jqGrid("gridResize");
+        jQuery("#mat_list").jqGrid('navGrid','#mat_pager',{edit:true,add:true,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
+        BindResizeble("#mat_list","#work_list_div_id");    
+
+}    
 function CarsLoad(){
     $.post(route+'controller/server/sel_list_cars.php',{default:<?php echo $car_id;?>}, 
        function(data){             
@@ -141,15 +251,17 @@ $(function() {
     $("#dlg_point" ).dialog({
       autoOpen: false,        
       resizable: false,
-      height:400,
-      width: 640,
+      height:'auto',
+      width: 'auto',
       modal: true,        
     });      
     // Загружаем список автомобилей
     CarsLoad();
     // Загружаем список исполнителей
     PointersLoad();      
-    // Загружаем список комментариев
+    // Загружаем список точек
     PointsLoad();
+    // Загружаем работы
+    WorkList();
 });    
 </script>    

@@ -14,29 +14,35 @@ if ($photo==""){$photo = 'noimage.jpg';};
 ?>
 <div class="container-fluid">
     <div class="row">
-        <div id="userpic" class="userpic">
-            <div class="js-preview userpic__preview thumbnail" id="image_set_id">			
-                <img width="200px" height="200px" src="photos/<?php echo "$photo";?>"> 
-            </div>
-            <div align="center" id="simple-btn" class="btn btn-primary js-fileapi-wrapper" style="text-align: center;">
-                    <div class="js-browse" align="center">
-                        <span class="btn-txt">Загрузить файл</span> 
-                        <input type="file" name="filedata">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding-right: 0px; padding-left: 0px;">
+            <div id="userpic" class="userpic">
+                <a target="_blank" href="photos/<?php echo "$photo";?>">
+                    <div class="js-preview userpic__preview thumbnail" id="image_set_id">			                    
+                            <img width="100%" src="photos/<?php echo "$photo";?>">                    
                     </div>
-                    <div class="js-upload" style="display: none">
-                        <div class="progress progress-success">
-                            <div class="js-progress bar"></div>
+                </a>                    
+                <div align="center" id="simple-btn" class="btn btn-primary js-fileapi-wrapper" style="text-align: center;">
+                        <div class="js-browse" align="center">
+                            <span class="btn-txt">Загрузить файл</span> 
+                            <input type="file" name="filedata">
                         </div>
-                        <span align="center" class="btn-txt">Загружаю (<span class="js-size"></span>)</span>
-                    </div>
-            </div>
-        </div>			                                                                       
+                        <div class="js-upload" style="display: none">
+                            <div class="progress progress-success">
+                                <div class="js-progress bar"></div>
+                            </div>
+                            <span align="center" class="btn-txt">Загружаю (<span class="js-size"></span>)</span>
+                        </div>
+                </div>
+            </div>			                                                                       
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding-right: 0px; padding-left: 0px;">
+            <div class="form-group">
+                <label for="point_commets_win_textarea">Комментарий</label>
+                <textarea class="form-control" id="point_commets_win_textarea" rows="2" name="point_commets_win_textarea"><?php echo "$comments";?></textarea>
+            </div>            
+        </div>
     </div>
 </div> 
-<div class="form-group">
-    <label for="point_commets_win_textarea">Комментарий</label>
-    <textarea class="form-control" id="point_commets_win_textarea" rows="2" cols="45" name="point_commets_win_textarea"><?php echo "$comments";?></textarea>
-</div>
 <div align="center">
     <button onclick="SavePointCommetns()" type="button" class="btn btn-success">Сохранить изменения</button>
 </div>
@@ -52,4 +58,24 @@ function SavePointCommetns(){
        }
     );        
 };    
+$(function() {
+    $('#simple-btn').fileapi({
+            url: route + 'controller/server/uploadpics.php',
+            data: {'point_id': <?php echo "$point_id";?>},
+            multiple: true,
+            maxSize: 10000 * FileAPI.MB,
+            autoUpload: true,
+            onFileComplete: function(evt, uiEvt) {
+                    if (uiEvt.result.msg != 'error') {
+                           filename=uiEvt.result.msg;
+                           $("#image_set_id").html('<img width="100%" src="photos/'+filename+'"> ');
+                    }
+            },
+            elements: {
+                    size: '.js-size',
+                    active: {show: '.js-upload', hide: '.js-browse'},
+                    progress: '.js-progress'
+            }
+    });    
+});    
 </script>    
