@@ -55,6 +55,20 @@ while ($row = mysqli_fetch_array($result)) {
                         <img id="razvertka_id" ondblclick="AddPoint(event)" src="controller/client/img/razvertka.png">                        
                         <div class="points_list_div" id="points_list_div"></div>
                     </div>
+                    <h3>Дополнительные фото</h3>
+                    <div id="dop_photos"></div>
+				<div align="center" id="new_dop_photo_load" class="btn btn-primary js-fileapi-wrapper" style="text-align: center;">
+					<div class="js-browse" align="center">
+						<span class="btn-txt">Загрузить файл</span> <input type="file" name="filedata">
+					</div>
+					<div class="js-upload" style="display: none">
+						<div class="progress progress-success">
+							<div class="js-progress bar"></div>
+						</div>
+						<span align="center" class="btn-txt">Загружаю (<span class="js-size"></span>)</span>
+					</div>
+				</div>
+                    
                 </div>
                 <div id="work_list_div_id" class="col-sm-6 col-md-6 col-lg-6 col-xl-6">							
                     <table id="work_list"></table>
@@ -223,7 +237,11 @@ function OpenPointWin(point_id){
     $("#points_div_list_which_photos").html("<img src='controller/client/img/loading.gif'>");
     $("#points_div_list_which_photos" ).load(route+"controller/server/point_view.php&point_id="+point_id);
     
-}    
+}   
+function PhotosList(){
+    $("#dop_photos").html("<img src='controller/client/img/loading.gif'>");
+    $("#dop_photos" ).load(route+"controller/server/photos_list.php&order_id=<?php echo "$order_id";?>");    
+};
 function AddPoint(e){    
     var x = e.offsetX == undefined ? e.layerX : e.offsetX;
     var y = e.offsetY == undefined ? e.layerY : e.offsetY;
@@ -263,5 +281,27 @@ $(function() {
     PointsLoad();
     // Загружаем работы
     WorkList();
+    // Загружаем фоточки
+    PhotosList();
+    // работа с загрузкой фото
+    $('#new_dop_photo_load').fileapi({
+            url: route + 'controller/server/uploadfiles_dop.php?',
+            data: {'order_id': <?php echo "$order_id";?>},
+            multiple: true,
+            maxSize: 10000 * FileAPI.MB,
+            autoUpload: true,
+            onFileComplete: function(evt, uiEvt) {
+                    if (uiEvt.result.msg != 'error') {
+                            filename=uiEvt.result.msg;
+                            $('#dop_photos').append("<img src='photos/"+filename+"' width='200px'>")
+                    }
+            },
+            elements: {
+                    size: '.js-size',
+                    active: {show: '.js-upload', hide: '.js-browse'},
+                    progress: '.js-progress'
+            }
+    });
+    
 });    
 </script>    
