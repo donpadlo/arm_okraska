@@ -9,7 +9,11 @@ $order_id= _GET("order_id");
 $type= _GET("type");
 
 if ($oper==""){
-    $sql = "select count(*) as snt from payments where order_id=$order_id and type=$type ";
+    if ($type=="1"){
+        $sql = "select count(*) as snt from points where order_id=$order_id";
+    } else {
+        $sql = "select count(*) as snt from payments where order_id=$order_id and type=$type ";
+    };
 //echo "$sql<br/>";    
     $result = $sqlcn->ExecuteSQL($sql) or die("Не могу выбрать количество payments!" . mysqli_error($sqlcn->idsqlconnection));
     $row = mysqli_fetch_array($result);
@@ -18,9 +22,13 @@ if ($oper==""){
     if ($page > $total_pages) $page = $total_pages;    
     $start = $limit * $page - $limit;
     if ($start<0){$start=0;};
-    
- $sql = "select * from payments where order_id=$order_id and type=$type ORDER BY $sidx $sord LIMIT $start , $limit";      
- $result = $sqlcn->ExecuteSQL($sql) or die("Не могу выбрать список cars!" . mysqli_error($sqlcn->idsqlconnection));
+
+    if ($type=="1"){
+         $sql = "select * from points where order_id=$order_id ORDER BY $sidx $sord LIMIT $start , $limit";      
+    } else {
+         $sql = "select * from payments where order_id=$order_id and type=$type ORDER BY $sidx $sord LIMIT $start , $limit";      
+    };    
+    $result = $sqlcn->ExecuteSQL($sql) or die("Не могу выбрать список cars!" . mysqli_error($sqlcn->idsqlconnection));
     $responce = new stdClass();
     $responce->page = $page;
     $responce->total = $total_pages;
@@ -48,9 +56,13 @@ if ($oper=="edit"){
  $amount = _POST('amount');
  $cnt = _POST('cnt');
  $comment = _POST('comment');
- $sql="update payments set amount='$amount',cnt='$cnt',comment='$comment' where id=$id";
+    if ($type=="1"){
+        $sql="update points set amount='$amount',cnt='$cnt',comment='$comment' where id=$id";
+    } else {
+        $sql="update payments set amount='$amount',cnt='$cnt',comment='$comment' where id=$id";
+    };   
  //echo "$sql";
- $result = $sqlcn->ExecuteSQL($sql) or die("Не удалось обновить cars!" . mysqli_error($sqlcn->idsqlconnection));
+ $result = $sqlcn->ExecuteSQL($sql) or die("Не удалось обновить $sql!" . mysqli_error($sqlcn->idsqlconnection));
 };
 if ($oper=="add"){
  $id = _POST('id');   
@@ -64,6 +76,11 @@ if ($oper=="add"){
 };
 if ($oper=="del"){
     $id = _POST('id');  
-    $sql="delete from payments where id=$id";
+    if ($type=="1"){
+        $sql="delete from points where id=$id";
+    } else {
+        $sql="delete from payments where id=$id";
+    };       
     $result = $sqlcn->ExecuteSQL($sql) or die("Не удалось удалить payments!" . mysqli_error($sqlcn->idsqlconnection));
 };
+?>

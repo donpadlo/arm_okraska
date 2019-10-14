@@ -87,7 +87,41 @@ while ($row = mysqli_fetch_array($result)) {
 <div id="dlg_point" title="Элемент">    
    <div id="points_div_list_which_photos"> </div>
 </div>
+<div id="dlg_car_add" title="Новый автомобиль">    
+     <div class="form-group">
+        <label for="car_model_form">Модель</label>
+        <input type="text" class="form-control" id="car_model_form" placeholder="Модель автомобиля">
+        <label for="car_number_form">Номер</label>
+        <input type="text" class="form-control" id="car_number_form" placeholder="Номер автомобиля">
+        <label for="fio_form">ФИО владельца</label>
+        <input type="text" class="form-control" id="fio_form" placeholder="ФИО владельца">
+        <label for="mobile_form">Телефон</label>
+        <input type="text" class="form-control" id="mobile_form" placeholder="Мобильный телефон">
+     </div>
+     <div align="center">
+        <button onclick="SaveCar()" type="button" class="btn btn-success">Сохранить</button>
+     </div>    
+</div>
+
 <script>
+function SaveCar(){    
+    $.post(route+'controller/server/save_car_from_order.php',{        
+        car_model: $("#car_model_form").val(),
+        car_number: $("#car_number_form").val(),        
+        fio_form: $("#fio_form").val(),
+        mobile: $("#mobile_form").val()
+    }, 
+       function(data){                
+            $('#dlg_car_add').dialog('close');
+            $().toastmessage('showWarningToast', 'Данные сохранены!');              
+            CarsLoad();
+            $("#car_model_form").val("");
+            $("#car_number_form").val("");
+            $("#fio_form").val("");
+            $("#mobile_form").val("");            
+       }
+    );    
+};
 function SaveOrder(){
     $.post(route+'controller/server/save_order.php',{
         order_id:<?php echo $order_id;?>,
@@ -129,7 +163,7 @@ function WorkList(){
             editurl:route+'controller/server/payments_list.php&type=1&order_id=<?php echo "$order_id";?>',
             caption:"Список работ"
         }).jqGrid("gridResize");
-        jQuery("#work_list").jqGrid('navGrid','#work_pager',{edit:true,add:true,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
+        jQuery("#work_list").jqGrid('navGrid','#work_pager',{edit:true,add:false,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
         BindResizeble("#work_list","#work_list_div_id");    
         // Запчасти
         jQuery("#zap_list").jqGrid({
@@ -267,6 +301,14 @@ function AddPoint(e){
 $(function() {
     // Окно точек
     $("#dlg_point" ).dialog({
+      autoOpen: false,        
+      resizable: false,
+      height:'auto',
+      width: 'auto',
+      modal: true,        
+    });      
+    //окно добавления авто
+    $("#dlg_car_add" ).dialog({
       autoOpen: false,        
       resizable: false,
       height:'auto',

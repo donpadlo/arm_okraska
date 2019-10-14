@@ -4,7 +4,9 @@ $sql="select * from points where id=$point_id";
 $result = $sqlcn->ExecuteSQL($sql) or die("Не могу выбрать список points!" . mysqli_error($sqlcn->idsqlconnection));
 $comments="";
 while ($row = mysqli_fetch_array($result)) {
-  $comments=$row["comments"];
+  $comments=$row["comment"];
+  $amount_point=$row["amount"];
+  $cnt_point=$row["cnt"];
   $photo=$row["photo"];
 };
 if (! file_exists(WUO_ROOT."/photos/$photo")) {
@@ -37,6 +39,10 @@ if ($photo==""){$photo = 'noimage.jpg';};
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding-right: 0px; padding-left: 0px;">
             <div class="form-group">
+                <label for="point_amount_win_textarea">Цена за работу</label>
+                <input type="text" class="form-control" id="point_amount_win_textarea" placeholder="Цена за работу" value="<?php echo "$amount_point";?>">
+                <label for="point_cnt_win_textarea">Количество</label>
+                <input type="text" class="form-control" id="point_cnt_win_textarea" placeholder="Количество" value='<?php echo "$cnt_point";?>'>                
                 <label for="point_commets_win_textarea">Комментарий</label>
                 <textarea class="form-control" id="point_commets_win_textarea" rows="2" name="point_commets_win_textarea"><?php echo "$comments";?></textarea>
             </div>            
@@ -50,11 +56,14 @@ if ($photo==""){$photo = 'noimage.jpg';};
 function SavePointCommetns(){
     $.post(route+'controller/server/point_save_comment.php',{
         point_id:<?php echo $point_id;?>,
-        comments: $("#point_commets_win_textarea").val()
+        comments: $("#point_commets_win_textarea").val(),
+        amount: $("#point_amount_win_textarea").val(),
+        cnt: $("#point_cnt_win_textarea").val()
     }, 
        function(data){                      
          $().toastmessage('showWarningToast', 'Сохранено');          
          $("#dlg_point" ).dialog("close");  
+         jQuery("#work_list").jqGrid().trigger('reloadGrid');                                
        }
     );        
 };    
