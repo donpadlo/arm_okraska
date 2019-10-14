@@ -2,10 +2,10 @@
 -- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Oct 13, 2019 at 08:12 PM
--- Server version: 5.7.27-0ubuntu0.18.04.1
--- PHP Version: 7.2.19-0ubuntu0.18.04.2
+-- Хост: localhost:3306
+-- Время создания: Окт 14 2019 г., 17:56
+-- Версия сервера: 5.7.27-0ubuntu0.18.04.1
+-- Версия PHP: 7.2.19-0ubuntu0.18.04.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pokraska`
+-- База данных: `pokraska`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cars`
+-- Структура таблицы `cars`
 --
 
 CREATE TABLE `cars` (
@@ -36,17 +36,18 @@ CREATE TABLE `cars` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `cars`
+-- Дамп данных таблицы `cars`
 --
 
 INSERT INTO `cars` (`id`, `dtcreate`, `model`, `number`, `fio`, `mobile`) VALUES
 (2, '2019-10-10 15:31:29', 'ВАЗ 2105', 'А354ХА', 'Пупкин Фёдор', '8726873'),
-(3, '2019-10-10 19:34:00', 'ТАЗ 2019', 'Х357ЕН', 'Забегайло Валентин', '297462780482');
+(3, '2019-10-10 19:34:00', 'ТАЗ 2019', 'Х357ЕН', 'Забегайло Валентин', '297462780482'),
+(4, '2019-10-14 14:34:32', '4', 'r234', '43r34', 'rw4rw3');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `images`
+-- Структура таблицы `images`
 --
 
 CREATE TABLE `images` (
@@ -57,7 +58,7 @@ CREATE TABLE `images` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `images`
+-- Дамп данных таблицы `images`
 --
 
 INSERT INTO `images` (`id`, `type`, `order_id`, `image`) VALUES
@@ -73,7 +74,7 @@ INSERT INTO `images` (`id`, `type`, `order_id`, `image`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orders`
+-- Структура таблицы `orders`
 --
 
 CREATE TABLE `orders` (
@@ -88,7 +89,7 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `orders`
+-- Дамп данных таблицы `orders`
 --
 
 INSERT INTO `orders` (`id`, `car_id`, `painter_id`, `dtcreate`, `dtclose`, `status`, `comments`, `archive`) VALUES
@@ -101,7 +102,7 @@ INSERT INTO `orders` (`id`, `car_id`, `painter_id`, `dtcreate`, `dtclose`, `stat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `painters`
+-- Структура таблицы `painters`
 --
 
 CREATE TABLE `painters` (
@@ -113,7 +114,7 @@ CREATE TABLE `painters` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `painters`
+-- Дамп данных таблицы `painters`
 --
 
 INSERT INTO `painters` (`id`, `dtcreate`, `fio`, `mobile`, `image`) VALUES
@@ -124,20 +125,20 @@ INSERT INTO `painters` (`id`, `dtcreate`, `fio`, `mobile`, `image`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payments`
+-- Структура таблицы `payments`
 --
 
 CREATE TABLE `payments` (
   `id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
-  `type` int(11) NOT NULL COMMENT '1 - работа, 2 - материалы 3 - запчасти',
+  `type` int(11) NOT NULL COMMENT '2 - материалы 3 - запчасти',
   `amount` float NOT NULL,
   `cnt` float NOT NULL,
   `comment` text COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `payments`
+-- Дамп данных таблицы `payments`
 --
 
 INSERT INTO `payments` (`id`, `order_id`, `type`, `amount`, `cnt`, `comment`) VALUES
@@ -151,114 +152,116 @@ INSERT INTO `payments` (`id`, `order_id`, `type`, `amount`, `cnt`, `comment`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `points`
+-- Структура таблицы `points`
 --
 
 CREATE TABLE `points` (
   `id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `coors` varchar(255) COLLATE utf8_bin NOT NULL,
-  `comments` text COLLATE utf8_bin NOT NULL,
+  `amount` float NOT NULL DEFAULT '0',
+  `cnt` int(11) NOT NULL DEFAULT '1',
+  `comment` text COLLATE utf8_bin NOT NULL,
   `photo` varchar(255) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
--- Dumping data for table `points`
+-- Дамп данных таблицы `points`
 --
 
-INSERT INTO `points` (`id`, `order_id`, `coors`, `comments`, `photo`) VALUES
-(1, 1, '[\"319\",\"46\"]', '', NULL),
-(2, 1, '[\"223\",\"51\"]', '', '50800686.jpg'),
-(3, 1, '[\"352\",\"87\"]', '', NULL),
-(4, 1, '[\"122\",\"65\"]', '1221', '67352576.jpg'),
-(5, 1, '[\"195\",\"81\"]', '', NULL),
-(6, 1, '[\"288\",\"182\"]', '', NULL),
-(7, 1, '[\"406\",\"191\"]', '', NULL),
-(8, 1, '[\"131\",\"183\"]', '', NULL),
-(9, 1, '[\"153\",\"307\"]', '', NULL),
-(10, 1, '[\"361\",\"312\"]', '', NULL),
-(11, 1, '[\"366\",\"176\"]', '', NULL),
-(12, 1, '[\"263\",\"171\"]', '', NULL),
-(13, 2, '[\"259\",\"173\"]', '', NULL),
-(14, 2, '[\"312\",\"194\"]', '', NULL),
-(15, 2, '[\"289\",\"142\"]', '', NULL),
-(16, 2, '[\"126\",\"191\"]', '', NULL),
-(17, 1, '[\"420\",\"299\"]', '', NULL),
-(18, 2, '[\"420\",\"302\"]', '', NULL),
-(19, 2, '[\"341\",\"35\"]', '', NULL),
-(20, 2, '[\"129\",\"303\"]', '', NULL);
+INSERT INTO `points` (`id`, `order_id`, `coors`, `amount`, `cnt`, `comment`, `photo`) VALUES
+(1, 1, '[\"319\",\"46\"]', 0, 1, '', NULL),
+(2, 1, '[\"223\",\"51\"]', 0, 1, '', '50800686.jpg'),
+(3, 1, '[\"352\",\"87\"]', 0, 1, '', NULL),
+(4, 1, '[\"122\",\"65\"]', 222, 1, '1221', '67352576.jpg'),
+(5, 1, '[\"195\",\"81\"]', 0, 1, '1111111111', NULL),
+(6, 1, '[\"288\",\"182\"]', 0, 1, '', NULL),
+(7, 1, '[\"406\",\"191\"]', 0, 1, '', NULL),
+(8, 1, '[\"131\",\"183\"]', 500, 1, '', NULL),
+(9, 1, '[\"153\",\"307\"]', 0, 1, '', NULL),
+(10, 1, '[\"361\",\"312\"]', 0, 1, '', NULL),
+(11, 1, '[\"366\",\"176\"]', 0, 1, '', NULL),
+(12, 1, '[\"263\",\"171\"]', 0, 1, '', NULL),
+(13, 2, '[\"259\",\"173\"]', 0, 1, '', NULL),
+(14, 2, '[\"312\",\"194\"]', 0, 1, '', NULL),
+(15, 2, '[\"289\",\"142\"]', 0, 1, '', NULL),
+(16, 2, '[\"126\",\"191\"]', 0, 1, '', NULL),
+(17, 1, '[\"420\",\"299\"]', 700, 1, '12wde  w', NULL),
+(18, 2, '[\"420\",\"302\"]', 0, 1, '', NULL),
+(19, 2, '[\"341\",\"35\"]', 0, 1, '', NULL),
+(20, 2, '[\"129\",\"303\"]', 22, 1, '222', NULL);
 
 --
--- Indexes for dumped tables
+-- Индексы сохранённых таблиц
 --
 
 --
--- Indexes for table `cars`
+-- Индексы таблицы `cars`
 --
 ALTER TABLE `cars`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `images`
+-- Индексы таблицы `images`
 --
 ALTER TABLE `images`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `orders`
+-- Индексы таблицы `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `painters`
+-- Индексы таблицы `painters`
 --
 ALTER TABLE `painters`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `payments`
+-- Индексы таблицы `payments`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `points`
+-- Индексы таблицы `points`
 --
 ALTER TABLE `points`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT for table `cars`
+-- AUTO_INCREMENT для таблицы `cars`
 --
 ALTER TABLE `cars`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT for table `images`
+-- AUTO_INCREMENT для таблицы `images`
 --
 ALTER TABLE `images`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT for table `orders`
+-- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
--- AUTO_INCREMENT for table `painters`
+-- AUTO_INCREMENT для таблицы `painters`
 --
 ALTER TABLE `painters`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT for table `payments`
+-- AUTO_INCREMENT для таблицы `payments`
 --
 ALTER TABLE `payments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
--- AUTO_INCREMENT for table `points`
+-- AUTO_INCREMENT для таблицы `points`
 --
 ALTER TABLE `points`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
