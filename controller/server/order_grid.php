@@ -44,6 +44,13 @@ if ($oper==""){
     $i = 0;
     while ($row = mysqli_fetch_array($result)) {
         $responce->rows[$i]['id'] = $row['id'];        
+        switch ($row['status']) {
+            case 0:$row['status']="Новый";break;
+            case 1:$row['status']="В работе";break;
+            case 3:$row['status']="Закрыт";break;
+            default:break;
+        };
+        $order_info=GetOrderInfo($row['id']);
         $responce->rows[$i]['cell'] = array(
             $row['id'],
             $row['dtcreate'],
@@ -51,6 +58,9 @@ if ($oper==""){
             $row['car'],
             $row['fio'],
             $row['status'],
+            $order_info["work"],
+            $order_info["mat"],
+            $order_info["zap"],
             $row['comments']            
         );
         $i ++;
@@ -59,7 +69,7 @@ if ($oper==""){
 };   
 if ($oper=="edit"){
  $id = _POST('id');   
- $comments = _POST('comments');
+ $comments = _POST('comment');
  $status = _POST('status');
  if ($status==3){
     $sql="update orders set dtclose=now(),status='$status',comments='$comments' where id=$id"; 

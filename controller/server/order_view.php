@@ -31,7 +31,7 @@ while ($row = mysqli_fetch_array($result)) {
                         <select style='width:100%;' tabindex='40' name=status_id id=status_id>";
                             <option <?php if ($status==0){echo "selected";};?> value='0'>Новый</option>
                             <option <?php if ($status==1){echo "selected";};?> value='1'>В работе</option>
-                            <option <?php if ($status==2){echo "selected";};?> value='2'>Закрыт</option>
+                            <option <?php if ($status==3){echo "selected";};?> value='3'>Закрыт</option>
                         </select>
                         <small class="form-text text-muted">Текущее состояние заказа</small>                         
                     </div>
@@ -56,7 +56,9 @@ while ($row = mysqli_fetch_array($result)) {
                         <div class="points_list_div" id="points_list_div"></div>
                     </div>
                     <h3>Дополнительные фото</h3>
-                    <div id="dop_photos"></div>
+                    <div id="dop_photos" class="card-group">
+                        
+                    </div>                    
 				<div align="center" id="new_dop_photo_load" class="btn btn-primary js-fileapi-wrapper" style="text-align: center;">
 					<div class="js-browse" align="center">
 						<span class="btn-txt">Загрузить файл</span> <input type="file" name="filedata">
@@ -80,6 +82,7 @@ while ($row = mysqli_fetch_array($result)) {
                 </div>            
         </div>
 </div>
+<hr/>
 <div align="center">
     <button onclick="SaveOrder()" type="button" class="btn btn-success">Сохранить изменения</button>
 </div>
@@ -276,6 +279,27 @@ function PhotosList(){
     $("#dop_photos").html("<img src='controller/client/img/loading.gif'>");
     $("#dop_photos" ).load(route+"controller/server/photos_list.php&order_id=<?php echo "$order_id";?>");    
 };
+function DeletePic(id){
+    $.confirm({
+        title: 'Подтверждение',
+        content: 'Уверены что хотите удалить фото?',
+        buttons: {
+                Да: function () {
+                    $.post(route+'controller/server/photo_del.php',{
+                        id:id
+                    }, 
+                        function(data){                      
+                            $("#dop_photos").html("<img src='controller/client/img/loading.gif'>");
+                            $("#dop_photos" ).load(route+"controller/server/photos_list.php&order_id=<?php echo "$order_id";?>");               
+                        }
+                    );                    
+                },
+                Нет: function () {
+                    console.log("отменили");
+                }
+            }        
+    });    
+};    
 function AddPoint(e){    
     var x = e.offsetX == undefined ? e.layerX : e.offsetX;
     var y = e.offsetY == undefined ? e.layerY : e.offsetY;
@@ -335,7 +359,9 @@ $(function() {
             onFileComplete: function(evt, uiEvt) {
                     if (uiEvt.result.msg != 'error') {
                             filename=uiEvt.result.msg;
-                            $('#dop_photos').append("<img src='photos/"+filename+"' width='200px'>")
+                                $("#dop_photos").html("<img src='controller/client/img/loading.gif'>");
+                                $("#dop_photos" ).load(route+"controller/server/photos_list.php&order_id=<?php echo "$order_id";?>");    
+
                     }
             },
             elements: {

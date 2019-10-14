@@ -20,14 +20,22 @@
         jQuery("#order_list").jqGrid({
             url:route+'controller/server/order_grid.php',
             datatype: "json",
-            colNames:['Id','Добавлен','Закрыт','Автомобиль','Исполнитель','Статус','Комментарий',''],
+            colNames:['Id','Добавлен','Закрыт','Автомобиль','Исполнитель','Статус','Работа','Материалы','Запчасти','Комментарий',''],
             colModel:[   		
                     {name:'orders.id',index:'orders.id', width:55,search: false,hidden:true,editable:false},                    
                     {name:'dtcreate',index:'dtcreate', width:150,search: true,editable:false,hidden:false,editable:false},     
                     {name:'dtclose',index:'dtclose', width:150,search: true,editable:false,hidden:false,editable:false},     
                     {name:'cars.number',index:'cars.number', width:150,search: true,editable:false},     
                     {name:'painters.fio',index:'painters.fio', width:150,search: true,editable:false},     
-                    {name:'status',index:'status', width:150,search: true,editable:true},     
+                    {name:'status',index:'status', width:100,search: true,
+                        edittype: "select",
+                         editoptions: {
+                             value: "0:Новый;1:В работе;3:Закрыт"
+                         }
+                        ,editable:true},
+                    {name:'work_cost',index:'work_cost', width:100,search: false,editable:false,sortable:false},
+                    {name:'mat_cost',index:'mat_cost', width:100,search: false,editable:false,sortable:false},
+                    {name:'zap_cost',index:'zap_cost', width:100,search: false,editable:false,sortable:false},
                     {name:'comment',index:'comment', width:150,search: true,editable:true},     
                     {name:'myac', width:60, fixed:true, sortable:false, resize:false, formatter:'actions',formatoptions:{keys:true},search: false}
             ],

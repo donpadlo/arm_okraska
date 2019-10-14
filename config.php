@@ -9,7 +9,7 @@ $debug = true; // РЕКОМЕНДУЮ поставить false !!!
 $codemysql = 'utf8'; // Кодировка базы
 $mysql_base_id = ''; // Идентификатор соединения
 
-$mysql_host = '127.0.0.1'; // Хост БД
+$mysql_host = 'localhost'; // Хост БД
 $mysql_user = 'donpadlo'; // Пользователь БД
 $mysql_pass = 'padlopavel'; // Пароль пользователя БД
 $mysql_base = 'pokraska'; // Имя базы
