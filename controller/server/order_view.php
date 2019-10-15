@@ -169,6 +169,7 @@ function WorkList(){
             editurl:route+'controller/server/payments_list.php&type=1&order_id=<?php echo "$order_id";?>',
             caption:"Список работ"
         }).jqGrid("gridResize");
+        $("#work_list").remapColumns([0,2,1],true,false);
         jQuery("#work_list").jqGrid('navGrid','#work_pager',{edit:true,add:true,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
         BindResizeble("#work_list","#work_list_div_id");    
         // Запчасти
@@ -198,6 +199,7 @@ function WorkList(){
             editurl:route+'controller/server/payments_list.php&type=2&order_id=<?php echo "$order_id";?>',
             caption:"Список запчастей"
         }).jqGrid("gridResize");
+        $("#zap_list").remapColumns([0,3,2,1],true,false);
         jQuery("#zap_list").jqGrid('navGrid','#zap_pager',{edit:true,add:true,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
         BindResizeble("#zap_list","#work_list_div_id");    
         // материалы
@@ -227,6 +229,7 @@ function WorkList(){
             editurl:route+'controller/server/payments_list.php&type=3&order_id=<?php echo "$order_id";?>',
             caption:"Список материалов"
         }).jqGrid("gridResize");
+        $("#zap_list").remapColumns([0,2,1],true,false);
         jQuery("#mat_list").jqGrid('navGrid','#mat_pager',{edit:true,add:true,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
         BindResizeble("#mat_list","#work_list_div_id");    
 

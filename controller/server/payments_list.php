@@ -46,8 +46,8 @@ if ($oper==""){
         $summ=$summ+round($row['amount'],2);
         $i ++;
     };
-    $responce->userdata['amount'] = 'Всего:';
-    $responce->userdata['comment'] = $summ . ' руб';    
+    //$responce->userdata['amount'] = 'Всего:';
+    $responce->userdata['comment'] = "Всего: ".$summ . ' руб';    
     echo json_encode($responce);    
 };   
 if ($oper=="edit"){
