@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:3306
--- Время создания: Окт 15 2019 г., 13:58
+-- Время создания: Окт 15 2019 г., 14:16
 -- Версия сервера: 5.7.27-0ubuntu0.18.04.1
 -- Версия PHP: 7.2.19-0ubuntu0.18.04.2
 
@@ -133,20 +133,23 @@ CREATE TABLE `payments` (
   `order_id` int(11) NOT NULL,
   `type` int(11) NOT NULL COMMENT '2 - материалы 3 - запчасти',
   `amount` float NOT NULL,
-  `comment` text COLLATE utf8_bin NOT NULL
+  `comment` text COLLATE utf8_bin NOT NULL,
+  `code` varchar(100) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Дамп данных таблицы `payments`
 --
 
-INSERT INTO `payments` (`id`, `order_id`, `type`, `amount`, `comment`) VALUES
-(1, 1, 1, 1.3, 'www'),
-(2, 1, 1, 100, 'test'),
-(3, 1, 2, 20, ''),
-(4, 1, 2, 2000, 'полуось'),
-(5, 1, 3, 400, 'Краска'),
-(6, 1, 3, 250, 'Пыво и сухарики');
+INSERT INTO `payments` (`id`, `order_id`, `type`, `amount`, `comment`, `code`) VALUES
+(1, 1, 1, 1.3, 'www', ''),
+(2, 1, 1, 100, 'test', ''),
+(4, 1, 2, 2000, 'полуось', ''),
+(5, 1, 3, 400, 'Краска', ''),
+(6, 1, 3, 250, 'Пыво и сухарики', ''),
+(7, 1, 2, 1, '2', ''),
+(8, 1, 2, 1, '2', '3'),
+(9, 1, 2, 111, '222', '333');
 
 -- --------------------------------------------------------
 
@@ -160,35 +163,33 @@ CREATE TABLE `points` (
   `coors` varchar(255) COLLATE utf8_bin NOT NULL,
   `amount` float NOT NULL DEFAULT '0',
   `comment` text COLLATE utf8_bin NOT NULL,
-  `photo` varchar(255) COLLATE utf8_bin DEFAULT NULL
+  `photo` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `code` varchar(100) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Дамп данных таблицы `points`
 --
 
-INSERT INTO `points` (`id`, `order_id`, `coors`, `amount`, `comment`, `photo`) VALUES
-(1, 1, '[\"319\",\"46\"]', 0, '', NULL),
-(2, 1, '[\"223\",\"51\"]', 0, '', '50800686.jpg'),
-(3, 1, '[\"352\",\"87\"]', 0, '', NULL),
-(4, 1, '[\"122\",\"65\"]', 222, '1221', '67352576.jpg'),
-(5, 1, '[\"195\",\"81\"]', 0, '1111111111', NULL),
-(6, 1, '[\"288\",\"182\"]', 0, '', NULL),
-(7, 1, '[\"406\",\"191\"]', 0, '', NULL),
-(8, 1, '[\"131\",\"183\"]', 500, '', NULL),
-(9, 1, '[\"153\",\"307\"]', 0, '', NULL),
-(10, 1, '[\"361\",\"312\"]', 0, '', NULL),
-(11, 1, '[\"366\",\"176\"]', 0, '', NULL),
-(12, 1, '[\"263\",\"171\"]', 0, '', NULL),
-(13, 2, '[\"259\",\"173\"]', 0, '', NULL),
-(14, 2, '[\"312\",\"194\"]', 0, '', NULL),
-(15, 2, '[\"289\",\"142\"]', 0, '', NULL),
-(16, 2, '[\"126\",\"191\"]', 0, '', NULL),
-(17, 1, '[\"420\",\"299\"]', 700, '12wde  w', NULL),
-(18, 2, '[\"420\",\"302\"]', 0, '', NULL),
-(19, 2, '[\"341\",\"35\"]', 0, '', NULL),
-(20, 2, '[\"129\",\"303\"]', 22, '222', NULL),
-(21, 1, '[\"-1\",\"-1\"]', 2, '1', NULL);
+INSERT INTO `points` (`id`, `order_id`, `coors`, `amount`, `comment`, `photo`, `code`) VALUES
+(2, 1, '[\"223\",\"51\"]', 0, '', '50800686.jpg', ''),
+(3, 1, '[\"352\",\"87\"]', 0, '', NULL, ''),
+(4, 1, '[\"122\",\"65\"]', 222, '1221', '67352576.jpg', ''),
+(5, 1, '[\"195\",\"81\"]', 0, '1111111111', NULL, ''),
+(6, 1, '[\"288\",\"182\"]', 0, '', NULL, ''),
+(7, 1, '[\"406\",\"191\"]', 0, '', NULL, ''),
+(8, 1, '[\"131\",\"183\"]', 500, '', NULL, ''),
+(10, 1, '[\"361\",\"312\"]', 0, '', NULL, ''),
+(11, 1, '[\"366\",\"176\"]', 0, '', NULL, ''),
+(12, 1, '[\"263\",\"171\"]', 0, '', NULL, ''),
+(13, 2, '[\"259\",\"173\"]', 0, '', NULL, ''),
+(14, 2, '[\"312\",\"194\"]', 0, '', NULL, ''),
+(15, 2, '[\"289\",\"142\"]', 0, '', NULL, ''),
+(16, 2, '[\"126\",\"191\"]', 0, '', NULL, ''),
+(17, 1, '[\"420\",\"299\"]', 700, '12wde  w', NULL, ''),
+(18, 2, '[\"420\",\"302\"]', 0, '', NULL, ''),
+(19, 2, '[\"341\",\"35\"]', 0, '', NULL, ''),
+(20, 2, '[\"129\",\"303\"]', 22, '222', NULL, '');
 
 --
 -- Индексы сохранённых таблиц
@@ -258,7 +259,7 @@ ALTER TABLE `painters`
 -- AUTO_INCREMENT для таблицы `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT для таблицы `points`
 --

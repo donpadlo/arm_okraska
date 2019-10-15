@@ -174,11 +174,12 @@ function WorkList(){
         jQuery("#zap_list").jqGrid({
             url:route+'controller/server/payments_list.php&type=2&order_id=<?php echo "$order_id";?>',
             datatype: "json",
-            colNames:['Id','Сумма','Комментарий',''],
+            colNames:['Id','Сумма','Комментарий','Код запчасти',''],
             colModel:[   		
                     {name:'id',index:'id', width:55,search: false,hidden:true,editable:false},                    
                     {name:'amount',index:'amount', width:80,search: false,editable:true,hidden:false,fixed:true},     
                     {name:'comment',index:'comment', width:150,search: true,editable:true},     
+                    {name:'code',index:'code', width:150,search: true,editable:true,hidden:false},     
                     {name:'myac', width:60, fixed:true, sortable:false, resize:false, formatter:'actions',formatoptions:{keys:true},search: false}
             ],
             autowidth: true,			
@@ -202,11 +203,12 @@ function WorkList(){
         jQuery("#mat_list").jqGrid({
             url:route+'controller/server/payments_list.php&type=3&order_id=<?php echo "$order_id";?>',
             datatype: "json",
-            colNames:['Id','Сумма','Комментарий',''],
+            colNames:['Id','Сумма','Комментарий','Код запчасти',''],
             colModel:[   		
                     {name:'id',index:'id', width:55,search: false,hidden:true,editable:false},                    
                     {name:'amount',index:'amount', width:80,search: false,editable:true,hidden:false,fixed:true},     
                     {name:'comment',index:'comment', width:150,search: true,editable:true},     
+                    {name:'code',index:'code', width:150,search: true,editable:false,hidden:true},     
                     {name:'myac', width:60, fixed:true, sortable:false, resize:false, formatter:'actions',formatoptions:{keys:true},search: false}
             ],
             autowidth: true,			

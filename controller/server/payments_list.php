@@ -41,6 +41,7 @@ if ($oper==""){
             $row['id'],
             $row['amount'],
             $row['comment'],
+            $row['code'],
         );
         $summ=$summ+round($row['amount'],2);
         $i ++;
@@ -54,10 +55,11 @@ if ($oper=="edit"){
  $amount = _POST('amount');
  $cnt = _POST('cnt');
  $comment = _POST('comment');
+ $code = _POST('code');
     if ($type=="1"){
-        $sql="update points set amount='$amount',comment='$comment' where id=$id";
+        $sql="update points set code='$code',amount='$amount',comment='$comment' where id=$id";
     } else {
-        $sql="update payments set amount='$amount',comment='$comment' where id=$id";
+        $sql="update payments set code='$code',amount='$amount',comment='$comment' where id=$id";
     };   
  //echo "$sql";
  $result = $sqlcn->ExecuteSQL($sql) or die("Не удалось обновить $sql!" . mysqli_error($sqlcn->idsqlconnection));
@@ -67,12 +69,13 @@ if ($oper=="add"){
  $amount = _POST('amount');
  $cnt = _POST('cnt');
  $comment = _POST('comment');
+ $code = _POST('code');
     if ($type=="1"){
                 $sql="insert into points (id,order_id,coors,amount,comment) values "
                 . "(null,$order_id,'[\"-1\",\"-1\"]','$amount','$comment')";  
     } else {
-                $sql="insert into payments (id,order_id,type,amount,comment) values "
-                        . "(null,$order_id,'$type','$amount','$comment')";          
+                $sql="insert into payments (id,order_id,type,amount,comment,code) values "
+                        . "(null,$order_id,'$type','$amount','$comment','$code')";          
     };    
    //echo "$sql!";
    $result = $sqlcn->ExecuteSQL($sql) or die("Не удалось добавить payments!" . mysqli_error($sqlcn->idsqlconnection)); 
