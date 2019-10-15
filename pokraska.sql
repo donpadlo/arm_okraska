@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost:3306
--- Время создания: Окт 14 2019 г., 17:56
+-- Время создания: Окт 15 2019 г., 13:58
 -- Версия сервера: 5.7.27-0ubuntu0.18.04.1
 -- Версия PHP: 7.2.19-0ubuntu0.18.04.2
 
@@ -93,7 +93,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `car_id`, `painter_id`, `dtcreate`, `dtclose`, `status`, `comments`, `archive`) VALUES
-(1, 3, 4, '2019-10-10 17:02:19', NULL, 0, '', 0),
+(1, 3, 4, '2019-10-10 17:02:19', NULL, 0, '1231', 0),
 (2, 2, 3, '2019-10-10 17:02:27', NULL, 2, '', 0),
 (3, -1, -1, '2019-10-10 19:55:29', NULL, 0, '', 1),
 (4, -1, -1, '2019-10-10 20:52:17', NULL, 0, '', 1),
@@ -133,7 +133,6 @@ CREATE TABLE `payments` (
   `order_id` int(11) NOT NULL,
   `type` int(11) NOT NULL COMMENT '2 - материалы 3 - запчасти',
   `amount` float NOT NULL,
-  `cnt` float NOT NULL,
   `comment` text COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -141,13 +140,13 @@ CREATE TABLE `payments` (
 -- Дамп данных таблицы `payments`
 --
 
-INSERT INTO `payments` (`id`, `order_id`, `type`, `amount`, `cnt`, `comment`) VALUES
-(1, 1, 1, 1.3, 2, 'www'),
-(2, 1, 1, 100, 3, 'test'),
-(3, 1, 2, 200, 1, 'Муфта'),
-(4, 1, 2, 2000, 1, 'полуось'),
-(5, 1, 3, 400, 1, 'Краска'),
-(6, 1, 3, 250, 10, 'Пыво и сухарики');
+INSERT INTO `payments` (`id`, `order_id`, `type`, `amount`, `comment`) VALUES
+(1, 1, 1, 1.3, 'www'),
+(2, 1, 1, 100, 'test'),
+(3, 1, 2, 20, ''),
+(4, 1, 2, 2000, 'полуось'),
+(5, 1, 3, 400, 'Краска'),
+(6, 1, 3, 250, 'Пыво и сухарики');
 
 -- --------------------------------------------------------
 
@@ -160,7 +159,6 @@ CREATE TABLE `points` (
   `order_id` int(11) NOT NULL,
   `coors` varchar(255) COLLATE utf8_bin NOT NULL,
   `amount` float NOT NULL DEFAULT '0',
-  `cnt` int(11) NOT NULL DEFAULT '1',
   `comment` text COLLATE utf8_bin NOT NULL,
   `photo` varchar(255) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -169,27 +167,28 @@ CREATE TABLE `points` (
 -- Дамп данных таблицы `points`
 --
 
-INSERT INTO `points` (`id`, `order_id`, `coors`, `amount`, `cnt`, `comment`, `photo`) VALUES
-(1, 1, '[\"319\",\"46\"]', 0, 1, '', NULL),
-(2, 1, '[\"223\",\"51\"]', 0, 1, '', '50800686.jpg'),
-(3, 1, '[\"352\",\"87\"]', 0, 1, '', NULL),
-(4, 1, '[\"122\",\"65\"]', 222, 1, '1221', '67352576.jpg'),
-(5, 1, '[\"195\",\"81\"]', 0, 1, '1111111111', NULL),
-(6, 1, '[\"288\",\"182\"]', 0, 1, '', NULL),
-(7, 1, '[\"406\",\"191\"]', 0, 1, '', NULL),
-(8, 1, '[\"131\",\"183\"]', 500, 1, '', NULL),
-(9, 1, '[\"153\",\"307\"]', 0, 1, '', NULL),
-(10, 1, '[\"361\",\"312\"]', 0, 1, '', NULL),
-(11, 1, '[\"366\",\"176\"]', 0, 1, '', NULL),
-(12, 1, '[\"263\",\"171\"]', 0, 1, '', NULL),
-(13, 2, '[\"259\",\"173\"]', 0, 1, '', NULL),
-(14, 2, '[\"312\",\"194\"]', 0, 1, '', NULL),
-(15, 2, '[\"289\",\"142\"]', 0, 1, '', NULL),
-(16, 2, '[\"126\",\"191\"]', 0, 1, '', NULL),
-(17, 1, '[\"420\",\"299\"]', 700, 1, '12wde  w', NULL),
-(18, 2, '[\"420\",\"302\"]', 0, 1, '', NULL),
-(19, 2, '[\"341\",\"35\"]', 0, 1, '', NULL),
-(20, 2, '[\"129\",\"303\"]', 22, 1, '222', NULL);
+INSERT INTO `points` (`id`, `order_id`, `coors`, `amount`, `comment`, `photo`) VALUES
+(1, 1, '[\"319\",\"46\"]', 0, '', NULL),
+(2, 1, '[\"223\",\"51\"]', 0, '', '50800686.jpg'),
+(3, 1, '[\"352\",\"87\"]', 0, '', NULL),
+(4, 1, '[\"122\",\"65\"]', 222, '1221', '67352576.jpg'),
+(5, 1, '[\"195\",\"81\"]', 0, '1111111111', NULL),
+(6, 1, '[\"288\",\"182\"]', 0, '', NULL),
+(7, 1, '[\"406\",\"191\"]', 0, '', NULL),
+(8, 1, '[\"131\",\"183\"]', 500, '', NULL),
+(9, 1, '[\"153\",\"307\"]', 0, '', NULL),
+(10, 1, '[\"361\",\"312\"]', 0, '', NULL),
+(11, 1, '[\"366\",\"176\"]', 0, '', NULL),
+(12, 1, '[\"263\",\"171\"]', 0, '', NULL),
+(13, 2, '[\"259\",\"173\"]', 0, '', NULL),
+(14, 2, '[\"312\",\"194\"]', 0, '', NULL),
+(15, 2, '[\"289\",\"142\"]', 0, '', NULL),
+(16, 2, '[\"126\",\"191\"]', 0, '', NULL),
+(17, 1, '[\"420\",\"299\"]', 700, '12wde  w', NULL),
+(18, 2, '[\"420\",\"302\"]', 0, '', NULL),
+(19, 2, '[\"341\",\"35\"]', 0, '', NULL),
+(20, 2, '[\"129\",\"303\"]', 22, '222', NULL),
+(21, 1, '[\"-1\",\"-1\"]', 2, '1', NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -264,7 +263,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT для таблицы `points`
 --
 ALTER TABLE `points`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

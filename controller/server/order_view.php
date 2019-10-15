@@ -18,7 +18,7 @@ while ($row = mysqli_fetch_array($result)) {
     $dtcreate=$row["dtcreate"];
     $dtclose=$row["dtclose"];
     $status=$row["status"];
-    $comments=$row["comments"];
+    $order_comment=$row["comments"];
 }; 
 //
 ?>
@@ -70,6 +70,9 @@ while ($row = mysqli_fetch_array($result)) {
 						<span align="center" class="btn-txt">Загружаю (<span class="js-size"></span>)</span>
 					</div>
 				</div>
+                <hr/>
+                <label for="order_comment">Комментарий</label>
+                <textarea class="form-control" id="order_comment" rows="2" name="order_comment"><?php echo "$order_comment";?></textarea>
                     
                 </div>
                 <div id="work_list_div_id" class="col-sm-6 col-md-6 col-lg-6 col-xl-6">							
@@ -131,6 +134,7 @@ function SaveOrder(){
         status: $("#status_id").val(),
         car_id: $("#car_id").val(),
         painter_id: $("#painter_id").val(),
+        comments: $("#order_comment").val(),
     }, 
        function(data){                      
             $().toastmessage('showWarningToast', 'Данные сохранены!');              
@@ -142,12 +146,10 @@ function WorkList(){
         jQuery("#work_list").jqGrid({
             url:route+'controller/server/payments_list.php&type=1&order_id=<?php echo "$order_id";?>',
             datatype: "json",
-            colNames:['Id','Сумма','Количество','Всего','Комментарий',''],
+            colNames:['Id','Сумма','Комментарий',''],
             colModel:[   		
                     {name:'id',index:'id', width:55,search: false,hidden:true,editable:false},                    
-                    {name:'amount',index:'amount', width:150,search: false,editable:true,hidden:false},     
-                    {name:'cnt',index:'cnt', width:150,search: false,editable:true,hidden:false},
-                    {name:'summ',index:'summ', width:150,search: false,editable:false,hidden:false,sortable:false},
+                    {name:'amount',index:'amount', width:80,search: false,editable:true,hidden:false,fixed:true},     
                     {name:'comment',index:'comment', width:150,search: true,editable:true},     
                     {name:'myac', width:60, fixed:true, sortable:false, resize:false, formatter:'actions',formatoptions:{keys:true},search: false}
             ],
@@ -166,18 +168,16 @@ function WorkList(){
             editurl:route+'controller/server/payments_list.php&type=1&order_id=<?php echo "$order_id";?>',
             caption:"Список работ"
         }).jqGrid("gridResize");
-        jQuery("#work_list").jqGrid('navGrid','#work_pager',{edit:true,add:false,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
+        jQuery("#work_list").jqGrid('navGrid','#work_pager',{edit:true,add:true,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
         BindResizeble("#work_list","#work_list_div_id");    
         // Запчасти
         jQuery("#zap_list").jqGrid({
             url:route+'controller/server/payments_list.php&type=2&order_id=<?php echo "$order_id";?>',
             datatype: "json",
-            colNames:['Id','Сумма','Количество','Всего','Комментарий',''],
+            colNames:['Id','Сумма','Комментарий',''],
             colModel:[   		
                     {name:'id',index:'id', width:55,search: false,hidden:true,editable:false},                    
-                    {name:'amount',index:'amount', width:150,search: false,editable:true,hidden:false},     
-                    {name:'cnt',index:'cnt', width:150,search: false,editable:true,hidden:false},
-                    {name:'summ',index:'summ', width:150,search: false,editable:false,hidden:false,sortable:false},
+                    {name:'amount',index:'amount', width:80,search: false,editable:true,hidden:false,fixed:true},     
                     {name:'comment',index:'comment', width:150,search: true,editable:true},     
                     {name:'myac', width:60, fixed:true, sortable:false, resize:false, formatter:'actions',formatoptions:{keys:true},search: false}
             ],
@@ -202,12 +202,10 @@ function WorkList(){
         jQuery("#mat_list").jqGrid({
             url:route+'controller/server/payments_list.php&type=3&order_id=<?php echo "$order_id";?>',
             datatype: "json",
-            colNames:['Id','Сумма','Количество','Всего','Комментарий',''],
+            colNames:['Id','Сумма','Комментарий',''],
             colModel:[   		
                     {name:'id',index:'id', width:55,search: false,hidden:true,editable:false},                    
-                    {name:'amount',index:'amount', width:150,search: false,editable:true,hidden:false},     
-                    {name:'cnt',index:'cnt', width:150,search: false,editable:true,hidden:false},
-                    {name:'summ',index:'summ', width:150,search: false,editable:false,hidden:false,sortable:false},
+                    {name:'amount',index:'amount', width:80,search: false,editable:true,hidden:false,fixed:true},     
                     {name:'comment',index:'comment', width:150,search: true,editable:true},     
                     {name:'myac', width:60, fixed:true, sortable:false, resize:false, formatter:'actions',formatoptions:{keys:true},search: false}
             ],
@@ -279,6 +277,10 @@ function PhotosList(){
     $("#dop_photos").html("<img src='controller/client/img/loading.gif'>");
     $("#dop_photos" ).load(route+"controller/server/photos_list.php&order_id=<?php echo "$order_id";?>");    
 };
+function OpenPic(photo){
+ console.log(photo);
+ newWin = window.open('photos/'+photo, 'printWindow');    
+};    
 function DeletePic(id){
     $.confirm({
         title: 'Подтверждение',

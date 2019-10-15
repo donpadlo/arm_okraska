@@ -40,15 +40,13 @@ if ($oper==""){
         $responce->rows[$i]['cell'] = array(
             $row['id'],
             $row['amount'],
-            $row['cnt'],
-            round($row['cnt']*$row['amount'],2),
             $row['comment'],
         );
-        $summ=$summ+round($row['cnt']*$row['amount'],2);
+        $summ=$summ+round($row['amount'],2);
         $i ++;
     };
     $responce->userdata['amount'] = 'Всего:';
-    $responce->userdata['summ'] = $summ . ' руб';    
+    $responce->userdata['comment'] = $summ . ' руб';    
     echo json_encode($responce);    
 };   
 if ($oper=="edit"){
@@ -57,9 +55,9 @@ if ($oper=="edit"){
  $cnt = _POST('cnt');
  $comment = _POST('comment');
     if ($type=="1"){
-        $sql="update points set amount='$amount',cnt='$cnt',comment='$comment' where id=$id";
+        $sql="update points set amount='$amount',comment='$comment' where id=$id";
     } else {
-        $sql="update payments set amount='$amount',cnt='$cnt',comment='$comment' where id=$id";
+        $sql="update payments set amount='$amount',comment='$comment' where id=$id";
     };   
  //echo "$sql";
  $result = $sqlcn->ExecuteSQL($sql) or die("Не удалось обновить $sql!" . mysqli_error($sqlcn->idsqlconnection));
@@ -69,8 +67,13 @@ if ($oper=="add"){
  $amount = _POST('amount');
  $cnt = _POST('cnt');
  $comment = _POST('comment');
-   $sql="insert into payments (id,order_id,type,amount,cnt,comment) values "
-           . "(null,$order_id,'$type','$amount','$cnt','$comment')";  
+    if ($type=="1"){
+                $sql="insert into points (id,order_id,coors,amount,comment) values "
+                . "(null,$order_id,'[\"-1\",\"-1\"]','$amount','$comment')";  
+    } else {
+                $sql="insert into payments (id,order_id,type,amount,comment) values "
+                        . "(null,$order_id,'$type','$amount','$comment')";          
+    };    
    //echo "$sql!";
    $result = $sqlcn->ExecuteSQL($sql) or die("Не удалось добавить payments!" . mysqli_error($sqlcn->idsqlconnection)); 
 };
