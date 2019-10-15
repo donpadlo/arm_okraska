@@ -9,11 +9,12 @@ if ($mode=="addnew"){
 };
 
 // читаю информацию по заказу и строю страницу
-$sql="select * from orders where id=$order_id";
+$sql="select orders.*,cars.number from orders left join cars on cars.id=car_id where orders.id=$order_id";
 $result = $sqlcn->ExecuteSQL($sql) or die("Не могу выбрать список painters!" . mysqli_error($sqlcn->idsqlconnection));
 while ($row = mysqli_fetch_array($result)) {
     $order_id=$row["id"];
     $car_id=$row["car_id"];
+    $car_number=$row["number"];
     $painter_id=$row["painter_id"];
     $dtcreate=$row["dtcreate"];
     $dtclose=$row["dtclose"];
@@ -22,7 +23,7 @@ while ($row = mysqli_fetch_array($result)) {
 }; 
 //
 ?>
-<div align="center"><h3>Заказ №<?php echo $order_id;?></h3></div>
+<div align="center"><h3>Заказ №<?php echo "$order_id $car_number";?></h3></div>
 <div class="container-fluid" style="padding-right: 0px; padding-left: 0px;">
         <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">							

@@ -36,7 +36,7 @@
                     {name:'work_cost',index:'work_cost', width:100,search: false,editable:false,sortable:false},
                     {name:'mat_cost',index:'mat_cost', width:100,search: false,editable:false,sortable:false},
                     {name:'zap_cost',index:'zap_cost', width:100,search: false,editable:false,sortable:false},
-                    {name:'comment',index:'comment', width:150,search: true,editable:true},     
+                    {name:'orders.comments',index:'orders.comments', width:150,search: true,editable:true},     
                     {name:'myac', width:60, fixed:true, sortable:false, resize:false, formatter:'actions',formatoptions:{keys:true},search: false}
             ],
             autowidth: true,			
