@@ -153,10 +153,31 @@ echo '</table>';
 ?>
 <script>
 function Pay(order_id,type,buttonid){
-    console.log(order_id,type,buttonid);
-  $("#"+buttonid).hide();  
+    if ($("#"+buttonid).prop( "disabled")==false){
+    $.confirm({
+        title: 'Подтверждение',
+        content: 'Уверены что хотите сделать выплату?',
+        buttons: {
+                Да: function () {
+                    $.post(route+'controller/server/pay_by_type.php',{
+                        order_id:order_id,
+                        type:type
+                    }, 
+                        function(data){    
+                                Update30Pers(<?php echo "\"$per_cur_end\",\"$per_cur_start\",$painter_id";?>,buttonid);
+                                Update20Pers(<?php echo "\"$per_7_end\",\"$per_7_start\",$painter_id";?>,buttonid);                                                        
+                        }
+                    );                    
+                },
+                Нет: function () {
+                    console.log("отменили");
+                }
+            }        
+    }); 
+   };
 };
-function Update30Pers(per_end,per_start,painter_id){
+function Update30Pers(per_end,per_start,painter_id,gotoid){
+    if (gotoid == undefined) gotoid = "";
     $.post(route+'controller/server/GetBonuses.php',{
             mode:'30',
             per_end:per_end,
@@ -164,11 +185,19 @@ function Update30Pers(per_end,per_start,painter_id){
             painter_id:painter_id
         }, 
        function(data){
+           console.log("--перегружаю #curr_pays");
            $("#curr_pays").html(data);
+           if (gotoid!=""){
+                console.log("--иду к ",gotoid);
+                window.location.hash=gotoid;
+                console.log("--гашу кнопку ",gotoid);
+                $("#"+gotoid).prop( "disabled", true ); 
+           };
        }
     );         
 }    
-function Update20Pers(per_end,per_start,painter_id){
+function Update20Pers(per_end,per_start,painter_id,gotoid){
+    if (gotoid == undefined) gotoid = "";
     $.post(route+'controller/server/GetBonuses.php',{
             mode:'20',
             per_end:per_end,
@@ -176,7 +205,15 @@ function Update20Pers(per_end,per_start,painter_id){
             painter_id:painter_id
         }, 
        function(data){
+           console.log("--перегружаю #do_pays");
            $("#do_pays").html(data);
+           if (gotoid!=""){
+                console.log("--иду к ",gotoid);
+                window.location.hash=gotoid;
+                console.log("--гашу кнопку ",gotoid);
+                $("#"+gotoid).prop( "disabled", true );
+           };
+           
        }
     );             
 }    
