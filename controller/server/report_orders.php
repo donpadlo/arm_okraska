@@ -42,8 +42,8 @@ echo '<th scope="col">Работа</th>';
 echo '<th scope="col">Материалы</th>';
 echo '<th scope="col">Запчасти</th>';
 echo '<th scope="col">Статус</th>';
-echo '<th scope="col">Выплата 20%</th>';
 echo '<th scope="col">Выплата 30%</th>';
+echo '<th scope="col">Выплата 20%</th>';
 echo '<th scope="col">Всего</th>';
 echo '</tr></thead>';
 
@@ -51,6 +51,7 @@ $idcnt=0;
 echo "<tr class='table-info' scope='row'><td colspan='12'><div id=curr_pays>Текущие выплаты (30%) с $per_cur_start по $per_cur_end</div></td></tr>";
 $sql="select * from orders where  dtclose between '$per_cur_end' and '$per_cur_start' $where and archive=0 order by dtcreate desc";
 $res = $sqlcn->ExecuteSQL($sql);
+$it_rab=0;$it_mat=0;$it_zap=0;$it_20=0;$it_30=0;$it_vp_all=0;
 while ($row = mysqli_fetch_array($res)) {
   $idcnt++;
   $order_id=$row["id"];
@@ -84,23 +85,28 @@ while ($row = mysqli_fetch_array($res)) {
     echo "<td>".$oa["zap"]."</td>";
     echo "<td>".$oa["status_txt"]."</td>";
     echo "<td>";
+        echo "$vp_30";
+        if (($status==3) and ($pay30==0)){
+            echo " <button id='p30$idcnt' onclick='Pay($order_id,30,\"p30$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.</button>";            
+        };
+    echo "</td>";    
+    echo "<td>";
         echo "$vp_20";
         if (($status==3) and ($pay20==0)){
           echo " <button id='p20$idcnt' onclick='Pay($order_id,20,\"p20$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.</button>";  
         };
     echo "</td>";
-    echo "<td>";
-        echo "$vp_30";
-        if (($status==3) and ($pay30==0)){
-            echo " <button id='p30$idcnt' onclick='Pay($order_id,30,\"p30$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.</button>";            
-        };
-    echo "</td>";
     echo "<td>$vl_all</td>";
   echo "</tr>";  
+  $it_rab=$it_rab+$oa["work"];$it_mat=$it_mat+$oa["mat"];
+  $it_zap=$it_zap+$oa["zap"];$it_20=$it_20+$vp_20;$it_30=$it_30+$vp_30;
+  $it_vp_all=$it_vp_all+$vl_all;  
 };
+echo "<tr class='table-success'><td></td><td></td><td></td><td>Итого</td><td></td><td>$it_rab</td><td>$it_mat</td><td>$it_zap</td><td></td><td>$it_30</td><td>$it_20</td><td>$it_vp_all</td></tr>";
 
 echo "<tr class='table-info' scope='row'><td colspan='12'><div id=do_pays>Доплаты (20%) с $per_7_start по $per_7_end</div></td></tr>";
 $sql="select * from orders where  dtclose between '$per_7_end' and '$per_7_start' $where and archive=0 order by dtcreate desc";
+$it_rab=0;$it_mat=0;$it_zap=0;$it_20=0;$it_30=0;$it_vp_all=0;
 $res = $sqlcn->ExecuteSQL($sql);
 while ($row = mysqli_fetch_array($res)) {
   $idcnt++;
@@ -118,7 +124,7 @@ while ($row = mysqli_fetch_array($res)) {
   $week=date("W", strtotime($dtcreate));      
   $daymonth=date("d", strtotime($dtcreate));      
   $oa=GetOrderInfo($order_id);  
-  $vp_20=round(($oa["work"]-$oa["mat"]/2)*0.2,2);
+  $vp_20=round(($oa["work"])*0.2,2);
   $vp_30=round(($oa["work"]-$oa["mat"]/2)*0.3,2);
   if  ($status!=3) {
     $vp_20=0;$vp_30=0;
@@ -135,20 +141,24 @@ while ($row = mysqli_fetch_array($res)) {
     echo "<td>".$oa["zap"]."</td>";
     echo "<td>".$oa["status_txt"]."</td>";
     echo "<td>";
+        echo "$vp_30";
+        if (($status==3) and ($pay30==0)){
+          echo " <button id='p30$idcnt' onclick='Pay($order_id,30,\"p30$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.</button>";  
+        };
+    echo "</td>";    
+    echo "<td>";
         echo "$vp_20";
         if (($status==3) and ($pay20==0)){
             echo " <button id='p20$idcnt' onclick='Pay($order_id,20,\"p20$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.</button>";  
         };
     echo "</td>";
-    echo "<td>";
-        echo "$vp_30";
-        if (($status==3) and ($pay30==0)){
-          echo " <button id='p30$idcnt' onclick='Pay($order_id,30,\"p30$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.</button>";  
-        };
-    echo "</td>";
     echo "<td>$vl_all</td>";
   echo "</tr>";  
-};
+  $it_rab=$it_rab+$oa["work"];$it_mat=$it_mat+$oa["mat"];
+  $it_zap=$it_zap+$oa["zap"];$it_20=$it_20+$vp_20;$it_30=$it_30+$vp_30;
+  $it_vp_all=$it_vp_all+$vl_all;  
+}; 
+echo "<tr class='table-success'><td></td><td></td><td></td><td>Итого</td><td></td><td>$it_rab</td><td>$it_mat</td><td>$it_zap</td><td></td><td>$it_30</td><td>$it_20</td><td>$it_vp_all</td></tr>";
 echo '</table>';
 ?>
 <script>
