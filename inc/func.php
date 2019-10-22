@@ -8,14 +8,14 @@ function GetPay20Pers($dtstart,$dtend,$type,$painter_id){
  global $sqlcn;    
     $amount=0;   
     if ($painter_id==-1){
-     $sql="select * from orders where  status=3 and  dtcreate between '$dtend' and '$dtstart' and archive=0 and pay20=$type order by dtcreate desc";
+     $sql="select * from orders where  status=3 and  dtclose between '$dtend' and '$dtstart' and archive=0 and pay20=$type order by dtcreate desc";
     } else {
-     $sql="select * from orders where   status=3 and dtcreate between '$dtend' and '$dtstart' and archive=0  and pay20=$type and painter_id=$painter_id order by dtcreate desc";    
+     $sql="select * from orders where   status=3 and dtclose between '$dtend' and '$dtstart' and archive=0  and pay20=$type and painter_id=$painter_id order by dtcreate desc";    
     };       
     $result = $sqlcn->ExecuteSQL($sql) or die("Не могу выбрать список заказов!" . mysqli_error($sqlcn->idsqlconnection));
     while ($row = mysqli_fetch_array($result)) {
         $oa=GetOrderInfo($row["id"]);  
-        $vp_20=round(($oa["work"]-$oa["mat"]/2)*0.2,2);       
+        $vp_20=round(($oa["work"])*0.2,2);       
         $amount=$amount+$vp_20;
     };
     return $amount;  
@@ -29,9 +29,9 @@ function GetPay30Pers($dtstart,$dtend,$type,$painter_id){
  global $sqlcn;    
     $amount=0;   
     if ($painter_id==-1){
-     $sql="select * from orders where status=3 and dtcreate between '$dtend' and '$dtstart'  and archive=0 and pay30=$type order by dtcreate desc";
+     $sql="select * from orders where status=3 and dtclose between '$dtend' and '$dtstart'  and archive=0 and pay30=$type order by dtcreate desc";
     } else {
-     $sql="select * from orders where  status=3 and dtcreate between '$dtend' and '$dtstart' and archive=0  and pay30=$type and painter_id=$painter_id order by dtcreate desc";    
+     $sql="select * from orders where  status=3 and dtclose between '$dtend' and '$dtstart' and archive=0  and pay30=$type and painter_id=$painter_id order by dtcreate desc";    
     };           
     //echo "$sql<br/>";
     $result = $sqlcn->ExecuteSQL($sql) or die("Не могу выбрать список заказов!" . mysqli_error($sqlcn->idsqlconnection));

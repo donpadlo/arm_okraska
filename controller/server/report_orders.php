@@ -12,15 +12,15 @@ $dtend1month= date('Y-m-d', strtotime($dtstart . ' - 1 month'));
 
 $daymonth=date("d", strtotime($dtstart));      
 
-if ($daymonth<7){
+if ($daymonth==1){
   $per_cur_start=$dtstart." 23:59:59";
-  $per_cur_end=date('Y-m-8 00:00:00', strtotime($dtstart . ' - 1 month'));
-  $per_7_start=date('Y-m-7 23:59:59', strtotime($dtstart . ' - 1 month'));
+  $per_cur_end=date('Y-m-2 00:00:00', strtotime($dtstart . ' - 1 month'));
+  $per_7_start=date('Y-m-1 23:59:59', strtotime($dtstart . ' - 1 month'));
   $per_7_end=$dtend2month." 00:00:00";  
 } else {
   $per_cur_start=$dtstart." 23:59:59";
-  $per_cur_end=date('Y-m-8 00:00:00', strtotime($dtstart));
-  $per_7_start=date('Y-m-7 23:59:59', strtotime($dtstart));
+  $per_cur_end=date('Y-m-2 00:00:00', strtotime($dtstart));
+  $per_7_start=date('Y-m-1 23:59:59', strtotime($dtstart));
   $per_7_end=$dtend2month." 00:00:00";      
 };
 
@@ -49,7 +49,7 @@ echo '</tr></thead>';
 
 $idcnt=0;
 echo "<tr class='table-info' scope='row'><td colspan='12'><div id=curr_pays>Текущие выплаты (30%) с $per_cur_start по $per_cur_end</div></td></tr>";
-$sql="select * from orders where  dtcreate between '$per_cur_end' and '$per_cur_start' $where and archive=0 order by dtcreate desc";
+$sql="select * from orders where  dtclose between '$per_cur_end' and '$per_cur_start' $where and archive=0 order by dtcreate desc";
 $res = $sqlcn->ExecuteSQL($sql);
 while ($row = mysqli_fetch_array($res)) {
   $idcnt++;
@@ -67,7 +67,7 @@ while ($row = mysqli_fetch_array($res)) {
   $week=date("W", strtotime($dtcreate));      
   $daymonth=date("d", strtotime($dtcreate));      
   $oa=GetOrderInfo($order_id);  
-  $vp_20=round(($oa["work"]-$oa["mat"]/2)*0.2,2);
+  $vp_20=round(($oa["work"])*0.2,2);
   $vp_30=round(($oa["work"]-$oa["mat"]/2)*0.3,2);
   if  ($status!=3) {
     $vp_20=0;$vp_30=0;
@@ -86,13 +86,13 @@ while ($row = mysqli_fetch_array($res)) {
     echo "<td>";
         echo "$vp_20";
         if (($status==3) and ($pay20==0)){
-          echo " <button id='p20$idcnt' onclick='Pay($order_id,20,\"p20$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>$</button>";  
+          echo " <button id='p20$idcnt' onclick='Pay($order_id,20,\"p20$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.</button>";  
         };
     echo "</td>";
     echo "<td>";
         echo "$vp_30";
         if (($status==3) and ($pay30==0)){
-            echo " <button id='p30$idcnt' onclick='Pay($order_id,30,\"p30$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>$</button>";            
+            echo " <button id='p30$idcnt' onclick='Pay($order_id,30,\"p30$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.</button>";            
         };
     echo "</td>";
     echo "<td>$vl_all</td>";
@@ -100,7 +100,7 @@ while ($row = mysqli_fetch_array($res)) {
 };
 
 echo "<tr class='table-info' scope='row'><td colspan='12'><div id=do_pays>Доплаты (20%) с $per_7_start по $per_7_end</div></td></tr>";
-$sql="select * from orders where  dtcreate between '$per_7_end' and '$per_7_start' $where and archive=0 order by dtcreate desc";
+$sql="select * from orders where  dtclose between '$per_7_end' and '$per_7_start' $where and archive=0 order by dtcreate desc";
 $res = $sqlcn->ExecuteSQL($sql);
 while ($row = mysqli_fetch_array($res)) {
   $idcnt++;
@@ -137,13 +137,13 @@ while ($row = mysqli_fetch_array($res)) {
     echo "<td>";
         echo "$vp_20";
         if (($status==3) and ($pay20==0)){
-            echo " <button id='p20$idcnt' onclick='Pay($order_id,20,\"p20$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>$</button>";  
+            echo " <button id='p20$idcnt' onclick='Pay($order_id,20,\"p20$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.</button>";  
         };
     echo "</td>";
     echo "<td>";
         echo "$vp_30";
         if (($status==3) and ($pay30==0)){
-          echo " <button id='p30$idcnt' onclick='Pay($order_id,30,\"p30$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>$</button>";  
+          echo " <button id='p30$idcnt' onclick='Pay($order_id,30,\"p30$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.</button>";  
         };
     echo "</td>";
     echo "<td>$vl_all</td>";
