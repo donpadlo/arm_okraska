@@ -6,7 +6,7 @@ $comments="";
 while ($row = mysqli_fetch_array($result)) {
   $comments=$row["comment"];
   $amount_point=$row["amount"];
-  $cnt_point=$row["cnt"];
+  //$cnt_point=$row["cnt"];
   $photo=$row["photo"];
 };
 if (! file_exists(WUO_ROOT."/photos/$photo")) {
@@ -41,8 +41,6 @@ if ($photo==""){$photo = 'noimage.jpg';};
             <div class="form-group">
                 <label for="point_amount_win_textarea">Цена за работу</label>
                 <input type="text" class="form-control" id="point_amount_win_textarea" placeholder="Цена за работу" value="<?php echo "$amount_point";?>">
-                <label for="point_cnt_win_textarea">Количество</label>
-                <input type="text" class="form-control" id="point_cnt_win_textarea" placeholder="Количество" value='<?php echo "$cnt_point";?>'>                
                 <label for="point_commets_win_textarea">Комментарий</label>
                 <textarea class="form-control" id="point_commets_win_textarea" rows="2" name="point_commets_win_textarea"><?php echo "$comments";?></textarea>
             </div>            
