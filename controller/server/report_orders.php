@@ -83,7 +83,12 @@ while ($row = mysqli_fetch_array($res)) {
     echo "<td>".$oa["work"]."</td>";
     echo "<td>".$oa["mat"]."</td>";
     echo "<td>".$oa["zap"]."</td>";
-    echo "<td>".$oa["status_txt"]."</td>";
+    echo "<td>";
+    echo $oa["status_txt"];
+    if  ($status!=3) {
+        echo " <button id='pzak$idcnt' onclick='CloseOrder($order_id,\"pzak$idcnt\");' title='Закрыть заказ' type='button' class='btn btn-outline-danger btn-sm'>Закрыть</button>";          
+    };        
+    echo "</td>";
     echo "<td>";
         echo "$vp_30";
         if (($status==3) and ($pay30==0)){
@@ -96,7 +101,12 @@ while ($row = mysqli_fetch_array($res)) {
           echo " <button id='p20$idcnt' onclick='Pay($order_id,20,\"p20$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.</button>";  
         };
     echo "</td>";
-    echo "<td>$vl_all</td>";
+    echo "<td>";
+        echo "$vl_all";
+        if (($status==3) and (($pay30==0) or ($pay20==0))){
+          echo " <button id='pall$idcnt' onclick='PayAll($order_id,\"pall$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.всё</button>";    
+        };
+    echo "</td>";
   echo "</tr>";  
   $it_rab=$it_rab+$oa["work"];$it_mat=$it_mat+$oa["mat"];
   $it_zap=$it_zap+$oa["zap"];$it_20=$it_20+$vp_20;$it_30=$it_30+$vp_30;
@@ -139,7 +149,12 @@ while ($row = mysqli_fetch_array($res)) {
     echo "<td>".$oa["work"]."</td>";
     echo "<td>".$oa["mat"]."</td>";
     echo "<td>".$oa["zap"]."</td>";
-    echo "<td>".$oa["status_txt"]."</td>";
+    echo "<td>";
+    echo $oa["status_txt"];
+    if  ($status!=3) {
+        echo " <button id='pzak$idcnt' onclick='CloseOrder($order_id,\"pzak$idcnt\");' title='Закрыть заказ' type='button' class='btn btn-outline-danger btn-sm'>Закрыть</button>";          
+    };        
+    echo "</td>";
     echo "<td>";
         echo "$vp_30";
         if (($status==3) and ($pay30==0)){
@@ -152,7 +167,12 @@ while ($row = mysqli_fetch_array($res)) {
             echo " <button id='p20$idcnt' onclick='Pay($order_id,20,\"p20$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.</button>";  
         };
     echo "</td>";
-    echo "<td>$vl_all</td>";
+    echo "<td>";
+        echo "$vl_all";
+        if (($status==3) and (($pay30==0) or ($pay20==0))){
+          echo " <button id='pall$idcnt' onclick='PayAll($order_id,\"pall$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.всё</button>";    
+        };
+    echo "</td>";
   echo "</tr>";  
   $it_rab=$it_rab+$oa["work"];$it_mat=$it_mat+$oa["mat"];
   $it_zap=$it_zap+$oa["zap"];$it_20=$it_20+$vp_20;$it_30=$it_30+$vp_30;
@@ -176,6 +196,52 @@ function Pay(order_id,type,buttonid){
                         function(data){    
                                 Update30Pers(<?php echo "\"$per_cur_end\",\"$per_cur_start\",$painter_id";?>,buttonid);
                                 Update20Pers(<?php echo "\"$per_7_end\",\"$per_7_start\",$painter_id";?>,buttonid);                                                        
+                        }
+                    );                    
+                },
+                Нет: function () {
+                    console.log("отменили");
+                }
+            }        
+    }); 
+   };
+};
+function PayAll(order_id,buttonid){
+    if ($("#"+buttonid).prop( "disabled")==false){
+    $.confirm({
+        title: 'Подтверждение',
+        content: 'Уверены что хотите сделать выплату (20% и 30%)?',
+        buttons: {
+                Да: function () {
+                    $.post(route+'controller/server/pay_by_type.php',{
+                        order_id:order_id,
+                        type:"all"
+                    }, 
+                        function(data){    
+                                Update30Pers(<?php echo "\"$per_cur_end\",\"$per_cur_start\",$painter_id";?>,buttonid);
+                                Update20Pers(<?php echo "\"$per_7_end\",\"$per_7_start\",$painter_id";?>,buttonid);                                                        
+                        }
+                    );                    
+                },
+                Нет: function () {
+                    console.log("отменили");
+                }
+            }        
+    }); 
+   };
+};
+function CloseOrder(order_id,buttonid){
+    if ($("#"+buttonid).prop( "disabled")==false){
+    $.confirm({
+        title: 'Подтверждение',
+        content: 'Уверены что хотите закрыть ордер?',
+        buttons: {
+                Да: function () {
+                    $.post(route+'controller/server/close_order.php',{
+                        order_id:order_id                        
+                    }, 
+                        function(data){    
+                            $().toastmessage('showWarningToast', 'Ордер '+order_id+'закрыт');
                         }
                     );                    
                 },
