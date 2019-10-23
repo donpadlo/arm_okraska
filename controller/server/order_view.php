@@ -287,6 +287,7 @@ function OpenPic(photo){
  newWin = window.open('photos/'+photo, 'printWindow');    
 };    
 function DeletePic(id){
+   if (modedit==true){
     $.confirm({
         title: 'Подтверждение',
         content: 'Уверены что хотите удалить фото?',
@@ -306,8 +307,12 @@ function DeletePic(id){
                 }
             }        
     });    
+    } else {
+     $().toastmessage('showWarningToast', 'Закрыто для редактирования!'); 
+    };
 };    
-function AddPoint(e){    
+function AddPoint(e){
+   if (modedit==true){
     var x = e.offsetX == undefined ? e.layerX : e.offsetX;
     var y = e.offsetY == undefined ? e.layerY : e.offsetY;
     x=x-5;
@@ -327,7 +332,10 @@ function AddPoint(e){
             $().toastmessage('showWarningToast', 'Ошибка добавления точки!'); 
          };
        }
-    );                           
+    );                
+    } else {
+        $().toastmessage('showWarningToast', 'Закрыто для редактирования!'); 
+    };
 };
 $(function() {
     <?php

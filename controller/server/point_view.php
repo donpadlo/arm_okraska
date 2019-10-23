@@ -54,6 +54,7 @@ if ($photo==""){$photo = 'noimage.jpg';};
 </div>
 <script>
 function SavePointCommetns(){
+if (modedit==true){    
     $.post(route+'controller/server/point_save_comment.php',{
         point_id:<?php echo $point_id;?>,
         comments: $("#point_commets_win_textarea").val(),
@@ -65,7 +66,10 @@ function SavePointCommetns(){
          $("#dlg_point" ).dialog("close");  
          jQuery("#work_list").jqGrid().trigger('reloadGrid');                                
        }
-    );        
+    );     
+    } else {
+        $().toastmessage('showWarningToast', 'Закрыто для редактирования!'); 
+    };       
 };    
 $(function() {
     $('#simple-btn').fileapi({
