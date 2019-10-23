@@ -86,7 +86,7 @@ while ($row = mysqli_fetch_array($res)) {
     echo "<td>";
     echo $oa["status_txt"];
     if  ($status!=3) {
-        echo " <button id='pzak$idcnt' onclick='CloseOrder($order_id,\"pzak$idcnt\");' title='Закрыть заказ' type='button' class='btn btn-outline-danger btn-sm'>Закрыть</button>";          
+  //      echo " <button id='pzak$idcnt' onclick='CloseOrder($order_id,\"pzak$idcnt\");' title='Закрыть заказ' type='button' class='btn btn-outline-danger btn-sm'>Закрыть</button>";          
     };        
     echo "</td>";
     echo "<td>";
@@ -170,7 +170,7 @@ while ($row = mysqli_fetch_array($res)) {
     echo "<td>";
         echo "$vl_all";
         if (($status==3) and (($pay30==0) or ($pay20==0))){
-          echo " <button id='pall$idcnt' onclick='PayAll($order_id,\"pall$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.всё</button>";    
+    //      echo " <button id='pall$idcnt' onclick='PayAll($order_id,\"pall$idcnt\");' title='Выплатить' type='button' class='btn btn-outline-danger btn-sm'>Вып.всё</button>";    
         };
     echo "</td>";
   echo "</tr>";  
@@ -241,6 +241,7 @@ function CloseOrder(order_id,buttonid){
                         order_id:order_id                        
                     }, 
                         function(data){    
+                            $("#"+buttonid).prop( "disabled", true ); 
                             $().toastmessage('showWarningToast', 'Ордер '+order_id+'закрыт');
                         }
                     );                    
