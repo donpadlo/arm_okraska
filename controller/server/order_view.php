@@ -21,7 +21,6 @@ while ($row = mysqli_fetch_array($result)) {
     $status=$row["status"];
     $order_comment=$row["comments"];
 }; 
-//
 ?>
 <div align="center"><h3>Заказ №<?php echo "$order_id $car_number";?></h3></div>
 <div class="container-fluid" style="padding-right: 0px; padding-left: 0px;">
@@ -170,7 +169,7 @@ function WorkList(){
             caption:"Список работ"
         }).jqGrid("gridResize");
         $("#work_list").remapColumns([0,2,1],true,false);
-        jQuery("#work_list").jqGrid('navGrid','#work_pager',{edit:true,add:true,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
+        jQuery("#work_list").jqGrid('navGrid','#work_pager',{edit:modedit,add:modedit,del:modedit,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
         BindResizeble("#work_list","#work_list_div_id");    
         // Запчасти
         jQuery("#zap_list").jqGrid({
@@ -200,7 +199,7 @@ function WorkList(){
             caption:"Список запчастей"
         }).jqGrid("gridResize");
         $("#zap_list").remapColumns([0,3,2,1],true,false);
-        jQuery("#zap_list").jqGrid('navGrid','#zap_pager',{edit:true,add:true,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
+        jQuery("#zap_list").jqGrid('navGrid','#zap_pager',{edit:modedit,add:modedit,del:modedit,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
         BindResizeble("#zap_list","#work_list_div_id");    
         // материалы
         jQuery("#mat_list").jqGrid({
@@ -230,7 +229,7 @@ function WorkList(){
             caption:"Список материалов"
         }).jqGrid("gridResize");
         $("#zap_list").remapColumns([0,2,1],true,false);
-        jQuery("#mat_list").jqGrid('navGrid','#mat_pager',{edit:true,add:true,del:true,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
+        jQuery("#mat_list").jqGrid('navGrid','#mat_pager',{edit:modedit,add:modedit,del:modedit,search:false},{},{top: 0, left: 0, width: 500},{},{multipleSearch:false},{closeOnEscape:true} );            
         BindResizeble("#mat_list","#work_list_div_id");    
 
 }    
@@ -331,6 +330,9 @@ function AddPoint(e){
     );                           
 };
 $(function() {
+    <?php
+     if ($status==3){echo "\n modedit=false;\n";} else {{echo "\n modedit=true;\n";}};
+    ?>
     // Окно точек
     $("#dlg_point" ).dialog({
       autoOpen: false,        
